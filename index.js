@@ -2,6 +2,10 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+
+dotenv.config();
 
 //creates express http server
 const app = express().use(bodyParser.json());
@@ -17,6 +21,9 @@ app.post('/webhook', (req, res) => {
         body.entry.forEach(entry => {
             let webhook_event = entry.messaging[0];
             console.log(webhook_event);
+
+            let sender_psid = webhook_event.sender.id;
+            console.log('PSID : ' + sender_psid);
         });
         res.status(200).send('EVENT_RECEIVED');
     } else {
@@ -25,7 +32,7 @@ app.post('/webhook', (req, res) => {
 });
 
 app.get('/webhook', (req, res) => {
-    let VERIFY_TOKEN = "xUf8Fr6NMaRAfTY41zBvFPDQIssJRjLf";
+    const VERIFY_TOKEN = "xUf8Fr6NMaRAfTY41zBvFPDQIssJRjLf";
 
     let mode = req.query['hub.mode'];
     let token = req.query['hub.verify_token'];
@@ -39,4 +46,19 @@ app.get('/webhook', (req, res) => {
             res.sendStatus(403);
         }
     }
-})
+});
+
+// Handles messages events
+function handleMessage(sender_psid, received_message) {
+
+}
+
+// Handles messaging_postbacks events
+function handlePostback(sender_psid, received_postback) {
+
+}
+
+// Sends response messages via the Send API
+function callSendAPI(sender_psid, response) {
+  
+}
