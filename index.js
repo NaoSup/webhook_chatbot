@@ -67,7 +67,7 @@ function handleMessage(sender_psid, received_message) {
     let response;
     const greetings = firstEntity(received_message.nlp, 'Greetings');
     console.log('Function handleMessage started...');
-    console.log(received_message.nlp.entities.intent);
+    console.log(received_message.nlp.entities.intent[0]["value"]);
     // Check if the message contains text
     if (received_message.text) {    
         console.log('Message contains a text');
