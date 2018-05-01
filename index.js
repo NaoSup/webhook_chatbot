@@ -2,11 +2,8 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const dotenv = require('dotenv');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const request = require('request');
-
-dotenv.config();
 
 //creates express http server
 const app = express().use(bodyParser.json());
@@ -20,15 +17,14 @@ app.post('/webhook', (req, res) => {
         req.body.entry.forEach(entry => {
             let webhook_event = entry.messaging[0];
             console.log(webhook_event);
-            
+            //get the user ID
             let sender_psid = webhook_event.sender.id;
 
             if (webhook_event.message) {
                 handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
-            }             
-  
+            }            
         });
         res.status(200).send('EVENT_RECEIVED');
     } else {
@@ -53,24 +49,19 @@ app.get('/webhook', (req, res) => {
     }
 });
 
-function firstEntity(nlp, name) {
-    return nlp && nlp.entities && nlp.entities[name] && nlp.entities[name][0];
-  }
-  
-
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
 
     let response;
     console.log(received_message.nlp.entities);
     if (received_message.text) {    
-        if(received_message.nlp.entities.intent[0]["value"] == 'Greetings' && received_message.nlp.entities.intent[0]["confidence"] > 0.7) {
+        if(received_message.nlp.entities.intent[0]["value"] == 'Greetings' && received_message.nlp.entities.intent[0]["confidence"] > 0.8) {
             response = {
                 "text": "Bonjour !"
             }
         } else {
             response = {
-                "text": `Je n'ai pas bien compris votre demande...`
+                "text": "Je n'ai pas bien compris votre demande..."
             }
         }
     }  
