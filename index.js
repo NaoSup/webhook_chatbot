@@ -56,18 +56,29 @@ app.get('/webhook', (req, res) => {
     }
 });
 
+function firstEntity(nlp, name) {
+    return nlp && nlp.entities && nlp.entities[name] && nlp.entities[name][0];
+  }
+  
+
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
 
     let response;
+    const greetings = firstEntity(received_message.nlp, 'Greetings');
     console.log('Function handleMessage started...');
     // Check if the message contains text
     if (received_message.text) {    
         console.log('Message contains a text');
-      // Create the payload for a basic text message
-      response = {
-        "text": `You sent the message: "${received_message.text}". Now send me an image!`
-      }
+        if(greetings && greetings.confidence > 0.8) {
+            response = {
+                "text": "Bonjour !"
+            }
+        } else {
+            response = {
+                "text": `You sent the message: "${received_message.text}". Now send me an image!`
+              }
+        }
     }  
     
     // Sends the response message
@@ -89,7 +100,7 @@ function callSendAPI(sender_psid, response) {
         },
         "message": response
     }
-    
+
     // Send the HTTP request to the Messenger Platform
     request({
         "uri": "https://graph.facebook.com/v2.6/me/messages",
