@@ -56,19 +56,17 @@ function handleMessage(sender_psid, received_message) {
     let response;
     console.log(received_message.nlp.entities);
     if (received_message.text) {    
-        if(received_message.nlp.entities.intent[0]["value"] == 'Greetings' && received_message.nlp.entities.intent[0]["confidence"] > 0.8) {
-            response = {
-                "text": "Bonjour !"
-            }
-        } else if (isEmpty(received_message.nlp.entities)) {
+        if(received_message.entities.intent){
+            if(received_message.nlp.entities.intent[0]["value"] == 'Greetings' && received_message.nlp.entities.intent[0]["confidence"] > 0.8) {
+                response = {
+                    "text": "Bonjour !"
+                }
+            }       
+        } else {
             response = {
                 "text": "Je n'ai pas bien compris votre demande..."
             }
-        } else {
-            response = {
-                "text": "Je suis dans l'incapacité de traiter votre demande..."
-            }
-        }
+        } 
     }  
     
     // Sends the response message
