@@ -22,14 +22,11 @@ app.post('/webhook', (req, res) => {
             console.log(webhook_event);
             
             let sender_psid = webhook_event.sender.id;
-            console.log('PSID : ' + sender_psid);
 
             if (webhook_event.message) {
                 handleMessage(sender_psid, webhook_event.message);
-                console.log('Webhook event is a message');     
             } else if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
-                console.log('Webhook event is a postback');
             }             
   
         });
@@ -65,19 +62,15 @@ function firstEntity(nlp, name) {
 function handleMessage(sender_psid, received_message) {
 
     let response;
-    const greetings = firstEntity(received_message.nlp, 'Greetings');
-    console.log('Function handleMessage started...');
-    console.log(received_message.nlp.entities.intent[0]["value"]);
-    // Check if the message contains text
+    console.log(received_message.nlp.entities);
     if (received_message.text) {    
-        console.log('Message contains a text');
         if(received_message.nlp.entities.intent[0]["value"] == 'Greetings' && received_message.nlp.entities.intent[0]["confidence"] > 0.7) {
             response = {
                 "text": "Bonjour !"
             }
         } else {
             response = {
-                "text": `You sent the message: "${received_message.text}". Now send me an image!`
+                "text": `Je n'ai pas bien compris votre demande...`
             }
         }
     }  
@@ -93,7 +86,6 @@ function handlePostback(sender_psid, received_postback) {
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
-    console.log('Function callSendAPI started...');
     // Construct the message body
     let request_body = {
         "recipient": {
@@ -110,7 +102,7 @@ function callSendAPI(sender_psid, response) {
         "json": request_body
     }, (err, res, body) => {
         if (!err) {
-            console.log('message sent! ' + response.text);
+            console.log('message sent! ');
         } else {
             console.error("Unable to send message:" + err);
         }
