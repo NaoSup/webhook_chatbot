@@ -71,7 +71,7 @@ function handleMessage(sender_psid, received_message) {
     // Check if the message contains text
     if (received_message.text) {    
         console.log('Message contains a text');
-        if(greetings && greetings.confidence > 0.8) {
+        if(received_message.nlp.entities.intent[0]["value"] == 'Greetings' && received_message.nlp.entities.intent[0]["confidence"] > 0.7) {
             response = {
                 "text": "Bonjour !"
             }
