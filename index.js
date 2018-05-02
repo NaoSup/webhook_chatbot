@@ -66,7 +66,7 @@ function handleMessage(sender_psid, received_message) {
                 response = {
                     "text": "Bonjour !"
                 }
-            } else if(value == 'school_description' && confidence > 0.8) {
+            } else if(value == 'School_description' && confidence > 0.8) {
                 response = {
                     "text": "Ingésup est une école en ingénierie informatique. Elle fait partie du groupe Ynov."
                 }
