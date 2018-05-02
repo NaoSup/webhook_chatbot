@@ -52,13 +52,22 @@ app.get('/webhook', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
-
+    let value = received_message.nlp.entities.intent[0]["value"];
+    let confidence = received_message.nlp.entities.intent[0]["confidence"];
     let response;
     console.log(received_message.nlp.entities);
     if (received_message.text) {    
-        if(received_message.nlp.entities.intent[0]["value"] == 'Greetings' && received_message.nlp.entities.intent[0]["confidence"] > 0.8) {
+        if(value == 'Greetings' && confidence > 0.8) {
             response = {
                 "text": "Bonjour !"
+            }
+        } else if(value == 'school_description' && confidence > 0.8) {
+            response = {
+                "text": "Ingésup est une école en ingénierie informatique. Elle fait partie du groupe Ynov."
+            }
+        } else if(value == 'degrees' && confidence > 0.8) {
+            response = {
+                "text": "A la fin de la formation, nous délivrons le titre d’Expert Informatique et Systèmes d’Information."
             }
         } else {
             response = {
