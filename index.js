@@ -67,7 +67,7 @@ function handleMessage(sender_psid, received_message) {
             }
         } else if(value == 'degrees' && confidence > 0.8) {
             response = {
-                "text": "A la fin de la formation, nous délivrons le titre d’Expert Informatique et Systèmes d’Information."
+                "text": "Nous proposons un bachelor (Bac+3) et un mastère (Bac+5). A la fin de la formation, nous délivrons le titre d’Expert Informatique et Systèmes d’Information."
             }
         } else {
             response = {
