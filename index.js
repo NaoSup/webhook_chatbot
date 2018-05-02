@@ -52,11 +52,11 @@ app.get('/webhook', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
-    let value = received_message.nlp.entities.intent[0]["value"];
-    let confidence = received_message.nlp.entities.intent[0]["confidence"];
     let response;
     console.log(received_message.nlp.entities);
     if (received_message.text) {
+        let value = received_message.nlp.entities.intent[0]["value"];
+        let confidence = received_message.nlp.entities.intent[0]["confidence"];
         if(confidence && confidence > 0.8){
             if(value == 'Greetings' && confidence > 0.8) {
                 response = {
