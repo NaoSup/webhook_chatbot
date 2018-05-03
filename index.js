@@ -52,11 +52,11 @@ app.get('/webhook', (req, res) => {
 
 // Reads intents.json file
 async function readIntents() {
-    fs.readFile('json/intents.json', (err, values) => {
+    let intents = fs.readFile('json/intents.json', (err, values) => {
         if(err) throw err;
         return(JSON.parse(values));
     });
-    
+    return intents;
 }
 
 // Handles messages events
@@ -65,13 +65,15 @@ async function handleMessage(sender_psid, received_message) {
     let confidence;
     let response;
     try {
+        let intents = await readIntents();
+        console.log(intents);
         console.log(received_message.nlp.entities);
         if (received_message.text) {
             if (received_message.nlp.entities.intent) {
                 value = received_message.nlp.entities.intent[0]["value"];
                 confidence = received_message.nlp.entities.intent[0]["confidence"];
             }
-            for await (var intent of readIntents()) {
+            for(var intent in intents) {
                 if(intent == value){
                     response = {
                         "text": intents[intent]
