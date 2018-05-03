@@ -66,7 +66,7 @@ async function handleMessage(sender_psid, received_message) {
     let confidence;
     let response;
     const readFile = util.promisify(fs.readFile);
-    const intents = await JSON.parse(readFile('json/intents.json'));
+    const intents = await readFile('json/intents.json');
 
     console.log(intents);
     console.log(received_message.nlp.entities);
