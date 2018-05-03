@@ -50,35 +50,40 @@ app.get('/webhook', (req, res) => {
     }
 });
 
+// Read intents.json file
+async function getIntentResponses() {
+    fs.readFile('json/intents.json', (err, values) => {
+        if(err) throw err;
+        return(JSON.parse(values));
+    });
+    
+}
+
 // Handles messages events
-function handleMessage(sender_psid, received_message) {
+async function handleMessage(sender_psid, received_message) {
     let value;
     let confidence;
     let response;
+    let intents;
     console.log(received_message.nlp.entities);
-    
-
     if (received_message.text) {
         if (received_message.nlp.entities.intent) {
             value = received_message.nlp.entities.intent[0]["value"];
             confidence = received_message.nlp.entities.intent[0]["confidence"];
         }
-        fs.readFile('json/intents.json', (err, values) => {
-            if(err) throw err;
-            let intents = JSON.parse(values);
-            for(var intent in intents) {
-                if(intent == value){
-                    response = {
-                        "text": intents[intent]
-                    }
+        intents = await getIntentResponses(); 
+        for(var intent in intents) {
+            if(intent == value){
+                response = {
+                    "text": intents[intent]
                 }
-                else {
-                    response = {
-                        "text": "Je n'ai pas bien compris votre demande..."
-                    }
-                } 
-            };
-        });
+            }
+            else {
+                response = {
+                    "text": "Je n'ai pas bien compris votre demande..."
+                }
+            } 
+        };
         /*if(confidence && confidence > 0.8){
             if(value == 'greetings' && confidence > 0.8) {
                 response = {
