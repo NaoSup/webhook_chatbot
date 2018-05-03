@@ -65,7 +65,7 @@ async function handleMessage(sender_psid, received_message) {
     let confidence;
     let response;
     try {
-        let intents = await Promise.all(readIntents());
+        let intents = await readIntents();
         console.log(intents);
         console.log(received_message.nlp.entities);
         if (received_message.text) {
