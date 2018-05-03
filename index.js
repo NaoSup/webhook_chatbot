@@ -66,11 +66,11 @@ function handleMessage(sender_psid, received_message) {
         fs.readFile('json/intents.json', (err, values) => {
             if(err) throw err;
             let intents = JSON.parse(values);
-            intents.forEach((intent) => {
+            for(var intent in intents) {
                 console.log('intent : ' + intent);
                 console.log('intents[intent] : ' + intents[intent]);
-            });
-        })
+            };
+        });
         if(confidence && confidence > 0.8){
             if(value == 'greetings' && confidence > 0.8) {
                 response = {
