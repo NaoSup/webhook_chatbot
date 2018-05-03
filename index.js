@@ -59,26 +59,19 @@ async function readIntents() {
     
 }
 
-// Gets the response
-async function getIntents() {
-    const intents = await readIntents();
-    return intents;
-}
-
 // Handles messages events
 async function handleMessage(sender_psid, received_message) {
     let value;
     let confidence;
     let response;
-    let intents;
+    let intents = await readIntents();
+    console.log(intents);
     console.log(received_message.nlp.entities);
     if (received_message.text) {
         if (received_message.nlp.entities.intent) {
             value = received_message.nlp.entities.intent[0]["value"];
             confidence = received_message.nlp.entities.intent[0]["confidence"];
         }
-        intents = await getIntents(); 
-        console.log(intents);
         for(var intent in intents) {
             if(intent == value){
                 response = {
