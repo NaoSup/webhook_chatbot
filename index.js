@@ -32,7 +32,8 @@ app.post('/webhook', (req, res) => {
         res.sendStatus(404);
     }
     fs.readFile('json/intents.json', (err, values) => {
-        console.log(values);
+        if(err) throw err;
+        console.log(JSON.parse(values));
     })
 });
 
