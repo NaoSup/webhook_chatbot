@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const request = require('request');
-const isEmpty = require('is-empty');
+const fs = require('fs');
 
 //creates express http server
 const app = express().use(bodyParser.json());
@@ -31,6 +31,9 @@ app.post('/webhook', (req, res) => {
     } else {
         res.sendStatus(404);
     }
+    fs.readFile('json/intents.json', (err, values) => {
+        console.log(values);
+    })
 });
 
 app.get('/webhook', (req, res) => {
