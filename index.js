@@ -31,10 +31,6 @@ app.post('/webhook', (req, res) => {
     } else {
         res.sendStatus(404);
     }
-    fs.readFile('json/intents.json', (err, values) => {
-        if(err) throw err;
-        console.log(JSON.parse(values));
-    })
 });
 
 app.get('/webhook', (req, res) => {
@@ -60,11 +56,21 @@ function handleMessage(sender_psid, received_message) {
     let confidence;
     let response;
     console.log(received_message.nlp.entities);
+    
+
     if (received_message.text) {
         if (received_message.nlp.entities.intent) {
             value = received_message.nlp.entities.intent[0]["value"];
             confidence = received_message.nlp.entities.intent[0]["confidence"];
         }
+        fs.readFile('json/intents.json', (err, values) => {
+            if(err) throw err;
+            let intents = JSON.parse(values);
+            intents.forEach((intent) => {
+                console.log('intent : ' + intent);
+                console.log('intents[intent] : ' + intents[intent]);
+            });
+        })
         if(confidence && confidence > 0.8){
             if(value == 'greetings' && confidence > 0.8) {
                 response = {
