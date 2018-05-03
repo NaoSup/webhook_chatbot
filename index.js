@@ -66,11 +66,11 @@ function handleMessage(sender_psid, received_message) {
             confidence = received_message.nlp.entities.intent[0]["confidence"];
         }
         if(confidence && confidence > 0.8){
-            if(value == 'Greetings' && confidence > 0.8) {
+            if(value == 'greetings' && confidence > 0.8) {
                 response = {
                     "text": "Bonjour !"
                 }
-            } else if(value == 'School_description' && confidence > 0.8) {
+            } else if(value == 'school_description' && confidence > 0.8) {
                 response = {
                     "text": "Ingésup est une école en ingénierie informatique. Elle fait partie du groupe Ynov."
                 }
