@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const request = require('request');
 const fs = require('fs');
+const util = require('util');
 
 //creates express http server
 const app = express().use(bodyParser.json());
@@ -52,11 +53,11 @@ app.get('/webhook', (req, res) => {
 
 // Reads intents.json file
 async function readIntents() {
-    let intents = fs.readFile('json/intents.json', (err, values) => {
+    fs.readFile('json/intents.json', (err, values) => {
         if(err) throw err;
         return(JSON.parse(values));
     });
-    return intents;
+    
 }
 
 // Handles messages events
@@ -64,48 +65,48 @@ async function handleMessage(sender_psid, received_message) {
     let value;
     let confidence;
     let response;
-    try {
-        let intents = await readIntents();
-        console.log(intents);
-        console.log(received_message.nlp.entities);
-        if (received_message.text) {
-            if (received_message.nlp.entities.intent) {
-                value = received_message.nlp.entities.intent[0]["value"];
-                confidence = received_message.nlp.entities.intent[0]["confidence"];
-            }
-            for(var intent in intents) {
-                if(intent == value){
-                    response = {
-                        "text": intents[intent]
-                    }
+    const readFile = util.promisify(fs.readFile);
+    const intents = await JSON.parse(readFile('json/intents.json'));
+
+    console.log(intents);
+    console.log(received_message.nlp.entities);
+    if (received_message.text) {
+        if (received_message.nlp.entities.intent) {
+            value = received_message.nlp.entities.intent[0]["value"];
+            confidence = received_message.nlp.entities.intent[0]["confidence"];
+        }
+        for(var intent in intents) {
+            if(intent == value){
+                response = {
+                    "text": intents[intent]
                 }
-                else {
-                    response = {
-                        "text": "Je n'ai pas bien compris votre demande..."
-                    }
-                } 
-            };
-            /*if(confidence && confidence > 0.8){
-                if(value == 'greetings' && confidence > 0.8) {
-                    response = {
-                        "text": "Bonjour !"
-                    }
-                } else if(value == 'school_description' && confidence > 0.8) {
-                    response = {
-                        "text": "Ingésup est une école en ingénierie informatique. Elle fait partie du groupe Ynov."
-                    }
-                } else if(value == 'degrees' && confidence > 0.8) {
-                    response = {
-                        "text": "Nous proposons un bachelor (Bac+3) et un mastère (Bac+5). A la fin de la formation, nous délivrons le titre d’Expert Informatique et Systèmes d’Information."
-                    }
-                } 
-            } */ 
-        } 
-        // Sends the response message
-        callSendAPI(sender_psid, response);
-    } catch (error) {
-        console.log('ERRORS : ' + error);
-    }    
+            }
+            else {
+                response = {
+                    "text": "Je n'ai pas bien compris votre demande..."
+                }
+            } 
+        };
+        /*if(confidence && confidence > 0.8){
+            if(value == 'greetings' && confidence > 0.8) {
+                response = {
+                    "text": "Bonjour !"
+                }
+            } else if(value == 'school_description' && confidence > 0.8) {
+                response = {
+                    "text": "Ingésup est une école en ingénierie informatique. Elle fait partie du groupe Ynov."
+                }
+            } else if(value == 'degrees' && confidence > 0.8) {
+                response = {
+                    "text": "Nous proposons un bachelor (Bac+3) et un mastère (Bac+5). A la fin de la formation, nous délivrons le titre d’Expert Informatique et Systèmes d’Information."
+                }
+            } 
+        } */ 
+        
+    }  
+    
+    // Sends the response message
+    callSendAPI(sender_psid, response);    
   }
 
 // Handles messaging_postbacks events
@@ -114,7 +115,7 @@ function handlePostback(sender_psid, received_postback) {
 }
 
 // Sends response messages via the Send API
-async function callSendAPI(sender_psid, response) {
+function callSendAPI(sender_psid, response) {
     // Construct the message body
     let request_body = {
         "recipient": {
