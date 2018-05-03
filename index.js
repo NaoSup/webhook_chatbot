@@ -64,43 +64,48 @@ async function handleMessage(sender_psid, received_message) {
     let value;
     let confidence;
     let response;
-    let intents = await readIntents();
-    console.log(intents);
-    console.log(received_message.nlp.entities);
-    if (received_message.text) {
-        if (received_message.nlp.entities.intent) {
-            value = received_message.nlp.entities.intent[0]["value"];
-            confidence = received_message.nlp.entities.intent[0]["confidence"];
-        }
-        for(var intent in intents) {
-            if(intent == value){
-                response = {
-                    "text": intents[intent]
-                }
+    try {
+        let intents = await readIntents();
+        console.log(intents);
+        console.log(received_message.nlp.entities);
+        if (received_message.text) {
+            if (received_message.nlp.entities.intent) {
+                value = received_message.nlp.entities.intent[0]["value"];
+                confidence = received_message.nlp.entities.intent[0]["confidence"];
             }
-            else {
-                response = {
-                    "text": "Je n'ai pas bien compris votre demande..."
+            for(var intent in intents) {
+                if(intent == value){
+                    response = {
+                        "text": intents[intent]
+                    }
                 }
-            } 
-        };
-        /*if(confidence && confidence > 0.8){
-            if(value == 'greetings' && confidence > 0.8) {
-                response = {
-                    "text": "Bonjour !"
-                }
-            } else if(value == 'school_description' && confidence > 0.8) {
-                response = {
-                    "text": "Ingésup est une école en ingénierie informatique. Elle fait partie du groupe Ynov."
-                }
-            } else if(value == 'degrees' && confidence > 0.8) {
-                response = {
-                    "text": "Nous proposons un bachelor (Bac+3) et un mastère (Bac+5). A la fin de la formation, nous délivrons le titre d’Expert Informatique et Systèmes d’Information."
-                }
-            } 
-        } */ 
-        
-    }  
+                else {
+                    response = {
+                        "text": "Je n'ai pas bien compris votre demande..."
+                    }
+                } 
+            };
+            /*if(confidence && confidence > 0.8){
+                if(value == 'greetings' && confidence > 0.8) {
+                    response = {
+                        "text": "Bonjour !"
+                    }
+                } else if(value == 'school_description' && confidence > 0.8) {
+                    response = {
+                        "text": "Ingésup est une école en ingénierie informatique. Elle fait partie du groupe Ynov."
+                    }
+                } else if(value == 'degrees' && confidence > 0.8) {
+                    response = {
+                        "text": "Nous proposons un bachelor (Bac+3) et un mastère (Bac+5). A la fin de la formation, nous délivrons le titre d’Expert Informatique et Systèmes d’Information."
+                    }
+                } 
+            } */ 
+            
+        } 
+    } catch (error) {
+        console.log('ERRORS : ' + error);
+    }
+ 
     
     // Sends the response message
     callSendAPI(sender_psid, response);    
