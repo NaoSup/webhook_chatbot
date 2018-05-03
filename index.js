@@ -67,11 +67,19 @@ function handleMessage(sender_psid, received_message) {
             if(err) throw err;
             let intents = JSON.parse(values);
             for(var intent in intents) {
-                console.log('intent : ' + intent);
-                console.log('intents[intent] : ' + intents[intent]);
+                if(intent == value){
+                    response = {
+                        "text": intents[intent]
+                    }
+                }
+                else {
+                    response = {
+                        "text": "Je n'ai pas bien compris votre demande..."
+                    }
+                } 
             };
         });
-        if(confidence && confidence > 0.8){
+        /*if(confidence && confidence > 0.8){
             if(value == 'greetings' && confidence > 0.8) {
                 response = {
                     "text": "Bonjour !"
@@ -85,12 +93,8 @@ function handleMessage(sender_psid, received_message) {
                     "text": "Nous proposons un bachelor (Bac+3) et un mastère (Bac+5). A la fin de la formation, nous délivrons le titre d’Expert Informatique et Systèmes d’Information."
                 }
             } 
-        }  
-        else {
-            response = {
-                "text": "Je n'ai pas bien compris votre demande..."
-            }
-        } 
+        } */ 
+        
     }  
     
     // Sends the response message
