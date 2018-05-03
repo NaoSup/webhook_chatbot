@@ -66,7 +66,11 @@ async function handleMessage(sender_psid, received_message) {
     let response;
     try {
         let intents = await readIntents();
-        console.log(intents);
+        
+    } catch (error) {
+        console.log('ERRORS : ' + error);
+    }
+    console.log(intents);
         console.log(received_message.nlp.entities);
         if (received_message.text) {
             if (received_message.nlp.entities.intent) {
@@ -102,9 +106,6 @@ async function handleMessage(sender_psid, received_message) {
             } */ 
             
         } 
-    } catch (error) {
-        console.log('ERRORS : ' + error);
-    }
  
     
     // Sends the response message
