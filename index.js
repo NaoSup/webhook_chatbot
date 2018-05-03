@@ -52,7 +52,10 @@ app.get('/webhook', (req, res) => {
 
 // Reads intents.json file
 async function readIntents() {
-    let intents = 0;
+    let intents = fs.readFile('json/intents.json', (err, values) => {
+        if(err) throw err;
+        return(JSON.parse(values));
+    });
     return intents;
 }
 
@@ -62,10 +65,7 @@ async function handleMessage(sender_psid, received_message) {
     let confidence;
     let response;
     try {
-        let intents = await fs.readFile('json/intents.json', (err, values) => {
-            if(err) throw err;
-            return(JSON.parse(values));
-        });
+        let intents = await Promise.all(readIntents());
         console.log(intents);
         console.log(received_message.nlp.entities);
         if (received_message.text) {
@@ -100,15 +100,12 @@ async function handleMessage(sender_psid, received_message) {
                     }
                 } 
             } */ 
-            
+            // Sends the response message
+            callSendAPI(sender_psid, response);
         } 
     } catch (error) {
         console.log('ERRORS : ' + error);
-    }
- 
-    
-    // Sends the response message
-    callSendAPI(sender_psid, response);    
+    }    
   }
 
 // Handles messaging_postbacks events
@@ -117,7 +114,7 @@ function handlePostback(sender_psid, received_postback) {
 }
 
 // Sends response messages via the Send API
-function callSendAPI(sender_psid, response) {
+async function callSendAPI(sender_psid, response) {
     // Construct the message body
     let request_body = {
         "recipient": {
