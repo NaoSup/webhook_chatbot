@@ -100,9 +100,9 @@ async function handleMessage(sender_psid, received_message) {
                     }
                 } 
             } */ 
-            // Sends the response message
-            callSendAPI(sender_psid, response);
         } 
+        // Sends the response message
+        callSendAPI(sender_psid, response);
     } catch (error) {
         console.log('ERRORS : ' + error);
     }    
