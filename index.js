@@ -51,14 +51,6 @@ app.get('/webhook', (req, res) => {
     }
 });
 
-// Reads intents.json file
-async function readIntents() {
-    fs.readFile('json/intents.json', (err, values) => {
-        if(err) throw err;
-        return(JSON.parse(values));
-    });
-    
-}
 
 // Handles messages events
 async function handleMessage(sender_psid, received_message) {
@@ -77,11 +69,13 @@ async function handleMessage(sender_psid, received_message) {
         }
         for(var intent in intents) {
             if(intent == value){
+                console.log('intent : ' + intent + ' est égal à value : ' + value);
                 response = {
                     "text": intents[intent]
                 }
             }
             else {
+                console.log('intent : ' + intent + ' nest pas égal à value : ' + value);
                 response = {
                     "text": "Je n'ai pas bien compris votre demande..."
                 }
