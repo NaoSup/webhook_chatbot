@@ -52,10 +52,7 @@ app.get('/webhook', (req, res) => {
 
 // Reads intents.json file
 async function readIntents() {
-    let intents = fs.readFile('json/intents.json', (err, values) => {
-        if(err) throw err;
-        return(JSON.parse(values));
-    });
+    let intents = 0;
     return intents;
 }
 
@@ -65,7 +62,10 @@ async function handleMessage(sender_psid, received_message) {
     let confidence;
     let response;
     try {
-        let intents = await readIntents();
+        let intents = await fs.readFile('json/intents.json', (err, values) => {
+            if(err) throw err;
+            return(JSON.parse(values));
+        });
         console.log(intents);
         console.log(received_message.nlp.entities);
         if (received_message.text) {
