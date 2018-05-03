@@ -74,13 +74,12 @@ async function handleMessage(sender_psid, received_message) {
                     "text": intents[intent]
                 }
             }
-            else {
-                console.log('intent : ' + intent + ' nest pas égal à value : ' + value);
-                response = {
-                    "text": "Je n'ai pas bien compris votre demande..."
-                }
-            } 
         };
+        if(response == null) {
+            response = {
+                "text": "Je n'ai pas bien compris votre demande..."
+            }
+        }
         /*if(confidence && confidence > 0.8){
             if(value == 'greetings' && confidence > 0.8) {
                 response = {
