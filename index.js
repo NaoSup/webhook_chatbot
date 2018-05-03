@@ -65,15 +65,13 @@ async function handleMessage(sender_psid, received_message) {
     let confidence;
     let response;
     try {
-        let intents = await readIntents();
-        console.log(intents);
         console.log(received_message.nlp.entities);
         if (received_message.text) {
             if (received_message.nlp.entities.intent) {
                 value = received_message.nlp.entities.intent[0]["value"];
                 confidence = received_message.nlp.entities.intent[0]["confidence"];
             }
-            for await (var intent of intents) {
+            for await (var intent of readIntents()) {
                 if(intent == value){
                     response = {
                         "text": intents[intent]
