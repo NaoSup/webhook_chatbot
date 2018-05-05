@@ -1,5 +1,14 @@
 {
     "greetings": ["Bonjour ! :)", "Bienvenue !"],
-    "degrees": ["Nous proposons un Bachelor(Bac+3) et un Mastère(Bac+5). A la fin de la formation, nous délivrons le titre d'Expert Informatique et Systèmes d'Information"],
-    "school_description": ["Ingésup est une école en ingénierie informatique."]
+    "school_degrees": ["Nous proposons un Bachelor(Bac+3) et un Mastère(Bac+5). A la fin de la formation, nous délivrons le titre d'Expert Informatique et Systèmes d'Information"],
+    "school_description": ["Ingésup est une école en ingénierie informatique."],
+    "school_prices":[{
+        "default": "Les frais de scolarité sont de 750€ par an mais les prix varient en fonction de l'année d'études.",
+        "bachelor": "Les tarifs du Bachelor sont de 6000€ (B1), 6800€ (B2) et 7300€ (B3).",
+        "mastere": "Les tarifs sont de 8000€ pour chaque année de Mastère."
+    }],
+    "school_location":[{
+        "default": "Nous sommes situés au 12 rue Anatole France, 92100 Nanterre.",
+        "transport":"RER A et Ligne L : Nanterre-Université"
+    }]
 }
