@@ -110,11 +110,12 @@ function getIntentResponse(value, intents){
         if(intent == value){
             if(intent == 'greetings') {
                 const jsonBestDay = getBestWeather();
+                console.log(jsonBestDay);
                 const day = jsonBestDay.day;
                 const date = jsonBestDay.date;
                 const month = jsonBestDay.month;
                 const temp = jsonBestDay.temp;
-                console.log(jsonBestDay);
+                
                 response = {
                     "text": intents[intent][Math.floor(Math.random()*intents[intent].length)] + "Vous pouvez venir nous rendre visite le " + day + " " + date + " " + month + ". Ca sera le jour le plus chaud de la semaine avec " + temp
                 }
