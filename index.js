@@ -58,7 +58,7 @@ function getBestWeather(){
     request.get(url, (err, response, body) => {
         if(err) throw err;
         let result = JSON.parse(body);
-        console.log('weather : ' + result);
+        console.log('weather : ' + result.list[0].dt_txt);
 
     })
 }
