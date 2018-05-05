@@ -135,7 +135,7 @@ async function getIntentResponse(value, intents){
         }
         
     };
-    console.log(response);
+
     return response;
 }
 
@@ -165,7 +165,7 @@ async function handleMessage(sender_psid, received_message) {
             }
         }
     }
-    
+    console.log(response);
     // Construct the message body
     let request_body = {
         "messaging_type": "RESPONSE",
