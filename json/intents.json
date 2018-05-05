@@ -1,5 +1,5 @@
 {
     "greetings": ["Bonjour ! :)", "Bienvenue !"],
-    "degrees": "Nous proposons un Bachelor(Bac+3) et un Mastère(Bac+5). A la fin de la formation, nous délivrons le titre d'Expert Informatique et Systèmes d'Information",
-    "school_description": "Ingésup est une école en ingénierie informatique."
+    "degrees": ["Nous proposons un Bachelor(Bac+3) et un Mastère(Bac+5). A la fin de la formation, nous délivrons le titre d'Expert Informatique et Systèmes d'Information"],
+    "school_description": ["Ingésup est une école en ingénierie informatique."]
 }
