@@ -10,8 +10,8 @@ const util = require('util');
 
 const readFile = util.promisify(fs.readFile);
 
-const { PAGE_ACCESS_TOKEN } = process.env.PAGE_ACCESS_TOKEN;
-const { WEATHER_API_KEY } = process.env.WEATHER_API_KEY;
+const { PAGE_ACCESS_TOKEN } = process.env;
+const { WEATHER_API_KEY } = process.env;
 
 // Creates express http server
 const app = express().use(bodyParser.json());
