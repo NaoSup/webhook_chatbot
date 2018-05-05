@@ -51,7 +51,6 @@ app.get('/webhook', (req, res) => {
     }
 });
 
-
 // Handles messages events
 async function handleMessage(sender_psid, received_message) {
     let value;
@@ -60,13 +59,17 @@ async function handleMessage(sender_psid, received_message) {
     const readFile = util.promisify(fs.readFile);
     const fileContent = await readFile('json/intents.json');
     const intents = JSON.parse(fileContent);
-    console.log(intents);
+    
     console.log(received_message.nlp.entities);
+    
     if (received_message.text) {
+        // Verifies if there is an intent
         if (received_message.nlp.entities.intent) {
             value = received_message.nlp.entities.intent[0]["value"];
             confidence = received_message.nlp.entities.intent[0]["confidence"];
         }
+
+        //Checks if the intent is known
         for(var intent in intents) {
             if(intent == value){
                 console.log('intent : ' + intent + ' est égal à value : ' + value);
@@ -80,24 +83,7 @@ async function handleMessage(sender_psid, received_message) {
                 "text": "Je n'ai pas bien compris votre demande..."
             }
         }
-        /*if(confidence && confidence > 0.8){
-            if(value == 'greetings' && confidence > 0.8) {
-                response = {
-                    "text": "Bonjour !"
-                }
-            } else if(value == 'school_description' && confidence > 0.8) {
-                response = {
-                    "text": "Ingésup est une école en ingénierie informatique. Elle fait partie du groupe Ynov."
-                }
-            } else if(value == 'degrees' && confidence > 0.8) {
-                response = {
-                    "text": "Nous proposons un bachelor (Bac+3) et un mastère (Bac+5). A la fin de la formation, nous délivrons le titre d’Expert Informatique et Systèmes d’Information."
-                }
-            } 
-        } */ 
-        
-    }  
-    
+    }    
     // Sends the response message
     callSendAPI(sender_psid, response);    
   }
@@ -111,6 +97,7 @@ function handlePostback(sender_psid, received_postback) {
 function callSendAPI(sender_psid, response) {
     // Construct the message body
     let request_body = {
+        "messaging_type": "RESPONSE",
         "recipient": {
             "id": sender_psid
         },
