@@ -9,21 +9,21 @@ const fs = require('fs');
 const util = require('util');
 const readFile = util.promisify(fs.readFile);
 
-//creates express http server
+//Creates express http server
 const app = express().use(bodyParser.json());
 
-//sets server port and logs message on success
+//Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening...'));
 
-//creates the endpoint for our webhook
+//Creates the endpoint for the webhook
 app.post('/webhook', (req, res) => {
     if(req.body.object === 'page') {
         req.body.entry.forEach(entry => {
             let webhook_event = entry.messaging[0];
             console.log(webhook_event);
-            //get the user ID
+            //Gets the user ID
             let sender_psid = webhook_event.sender.id;
-
+            senderAction(sender_psid);
             if (webhook_event.message) {
                 handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
@@ -52,6 +52,19 @@ app.get('/webhook', (req, res) => {
         }
     }
 });
+
+//Send sender action typing on
+function senderAction(sender_psid){
+    let request_body = {
+        "messaging_type": "RESPONSE",
+        "recipient":{
+          "id": sender_psid
+        },
+        "sender_action":"typing_on"
+    }
+    callSendAPI(request_body);
+}
+
 
 //Gets the data from the weather API
 function getApiData(){
@@ -95,7 +108,7 @@ async function getBestWeather(){
     //Gets the date
     let date = fullDate.getDate();
 
-    //Get the month
+    //Gets the month
     const months = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
     let month;
     for(var i = 0; i < months.length; i++) {
@@ -103,6 +116,8 @@ async function getBestWeather(){
             month = months[i];
         }
     }
+
+    //Sends best day data as json
     bestDay = {
         "day": day,
         "date": date,
@@ -112,12 +127,13 @@ async function getBestWeather(){
     return bestDay;
 }
 
+//Finds the response corresponding with the intent
 async function getIntentResponse(value, intents){
     let jsonBestDay = await getBestWeather();
     let response;
     for(var intent in intents) {
         if(intent == value){
-            if(intent == 'greetings') {
+            if(intent == 'school_location') {
                 let day = jsonBestDay.day;
                 let date = jsonBestDay.date;
                 let month = jsonBestDay.month;
