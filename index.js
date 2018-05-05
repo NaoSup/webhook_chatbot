@@ -136,7 +136,7 @@ async function handleMessage(sender_psid, received_message) {
     let response;
     const fileContent = await readFile('json/intents.json');
     const intents = JSON.parse(fileContent);
-    const bestDay = getBestWeather();
+    const bestDay = util.promisify(getBestWeather());
     
     console.log(received_message.nlp.entities);
     getBestWeather();
