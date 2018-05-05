@@ -109,14 +109,13 @@ async function getBestWeather(){
         "month": month,
         "temp": temp + "C°"
     }
-    console.log(bestDay);
-    //return bestDay;
+    return bestDay;
 }
 
 function getIntentResponse(value, intents){
     let jsonBestDay = getBestWeather();
     let response;
-    console.log(getBestWeather);
+    console.log(jsonBestDay);
     for(var intent in intents) {
         if(intent == value){
             if(intent == 'greetings') {
@@ -148,7 +147,6 @@ async function handleMessage(sender_psid, received_message) {
     const intents = JSON.parse(fileContent);
     
     console.log(received_message.nlp.entities);
-    getBestWeather();
     
     if (received_message.text) {
         // Verifies if there is an intent
