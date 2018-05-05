@@ -115,7 +115,6 @@ async function getBestWeather(){
 async function getIntentResponse(value, intents){
     let jsonBestDay = await getBestWeather();
     let response;
-    console.log(jsonBestDay);
     for(var intent in intents) {
         if(intent == value){
             if(intent == 'greetings') {
@@ -157,7 +156,7 @@ async function handleMessage(sender_psid, received_message) {
         }
 
         //Checks if the intent is known
-        response = getIntentResponse(value, intents);
+        response = await getIntentResponse(value, intents);
         //Default response
         if(response == null) {
             response = {
