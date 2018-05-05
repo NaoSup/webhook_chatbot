@@ -103,7 +103,7 @@ async function getBestWeather(){
     })
 }
 
-function getIntentResponse(value, intents){
+async function getIntentResponse(value, intents){
     let jsonBestDay = getBestWeather();
     let response;
 
