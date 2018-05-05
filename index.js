@@ -60,15 +60,14 @@ function getApiData() {
 
 // Gets the best weather condition of the week
 async function getBestWeather() {
-  let bestDay;
   const json = await getApiData();
-  const list = json.list;
+  const { list } = json;
   let fullDate = new Date(list[0].dt_txt);
   let temp = list[0].main.temp_max;
 
-  for (var i = 1; i < list.length; i++) {
+  for (let i = 1; i < list.length; i++) {
     const listDate = new Date(list[i].dt_txt);
-    if (list[i].main.temp_max >= temp && listDate.getDay() != 6 && listDate.getDay() != 0) {
+    if (list[i].main.temp_max >= temp && listDate.getDay() !== 6 && listDate.getDay() !== 0) {
       temp = list[i].main.temp_max;
       fullDate = listDate;
     }
@@ -77,8 +76,8 @@ async function getBestWeather() {
   // Gets the day of the week
   const weekdays = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
   let day;
-  for (var i = 0; i < weekdays.length; i++) {
-    if (fullDate.getDay() == i) {
+  for (let i = 0; i < weekdays.length; i++) {
+    if (fullDate.getDay() === i) {
       day = weekdays[i];
     }
   }
@@ -89,14 +88,14 @@ async function getBestWeather() {
   // Gets the month
   const months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
   let month;
-  for (var i = 0; i < months.length; i++) {
-    if (fullDate.getMonth() == i) {
+  for (let i = 0; i < months.length; i++) {
+    if (fullDate.getMonth() === i) {
       month = months[i];
     }
   }
 
   // Sends best day data as json
-  bestDay = {
+  const bestDay = {
     day,
     date,
     month,
@@ -106,16 +105,13 @@ async function getBestWeather() {
 }
 
 // Finds the response corresponding with the intent
-async function getIntentResponse(value, intents) {
+async function getIntentResponse(value, confidence, intents) {
   const jsonBestDay = await getBestWeather();
   let response;
   for (const intent in intents) {
-    if (intent == value) {
-      if (intent == 'school_location') {
-        const day = jsonBestDay.day;
-        const date = jsonBestDay.date;
-        const month = jsonBestDay.month;
-        const temp = jsonBestDay.temp;
+    if (intent === value && confidence > 0.8) {
+      if (intent === 'school_location') {
+        const { day, date, month, temp } = jsonBestDay;
         const text = `${intents[intent][Math.floor(Math.random() * intents[intent].length)]}Vous pouvez venir nous rendre visite le ${day} ${date} ${month}. Ca sera le jour le plus chaud de la semaine avec ${temp}`;
         response = {
           text,
@@ -131,26 +127,26 @@ async function getIntentResponse(value, intents) {
 }
 
 // Handles messages events
-async function handleMessage(SENDER_PSID, received_message) {
+async function handleMessage(SENDER_PSID, RECEIVED_MESSAGE) {
   let value;
   let confidence;
   let response;
   const fileContent = await readFile('json/intents.json');
   const intents = JSON.parse(fileContent);
 
-  console.log(received_message.nlp.entities);
+  console.log(RECEIVED_MESSAGE.nlp.entities);
 
-  if (received_message.text) {
+  if (RECEIVED_MESSAGE.text) {
     // Verifies if there is an intent
-    if (received_message.nlp.entities.intent) {
-      value = received_message.nlp.entities.intent[0].value;
-      confidence = received_message.nlp.entities.intent[0].confidence;
+    if (RECEIVED_MESSAGE.nlp.entities.intent) {
+      let { value } = RECEIVED_MESSAGE.nlp.entities.intent[0].value;
+      confidence = RECEIVED_MESSAGE.nlp.entities.intent[0].confidence;
     }
 
     // Checks if the intent is known
-    response = await getIntentResponse(value, intents);
+    response = await getIntentResponse(value, confidence, intents);
     // Default response
-    if (response == null) {
+    if (response === null) {
       response = {
         text: "Je n'ai pas bien compris votre demande...",
       };
