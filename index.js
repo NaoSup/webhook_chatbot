@@ -139,7 +139,7 @@ async function handleMessage(SENDER_PSID, RECEIVED_MESSAGE) {
   if (RECEIVED_MESSAGE.text) {
     // Verifies if there is an intent
     if (RECEIVED_MESSAGE.nlp.entities.intent) {
-      let { value } = RECEIVED_MESSAGE.nlp.entities.intent[0].value;
+      value = RECEIVED_MESSAGE.nlp.entities.intent[0].value;
       confidence = RECEIVED_MESSAGE.nlp.entities.intent[0].confidence;
     }
 
