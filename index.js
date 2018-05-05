@@ -54,23 +54,31 @@ app.get('/webhook', (req, res) => {
     getBestWeather();
 });
 
+//Gets the best weather condition of the week
 function getBestWeather(){
     let url = 'http://api.openweathermap.org/data/2.5/forecast?q=Nanterre,fr&units=metric&mode=json&lang=fr&APPID='+WEATHER_API_KEY;
+    
     request.get(url, (err, response, body) => {
         if(err) throw err;
         const result = JSON.parse(body);
         const list = result.list;
         let date = new Date(list[0].dt_txt);
-        let temp = list[0].main.temp;
+        let temp = list[0].main.temp_max;
+        
         for(var i = 1; i < list.length; i++){
             let listDate = new Date(list[i].dt_txt); 
-            if(list[i].main.temp >= temp && listDate.getDay() != 6 && listDate.getDay() != 0){
-                temp = list[i].main.temp;
+            if(list[i].main.temp_max >= temp && listDate.getDay() != 6 && listDate.getDay() != 0){
+                temp = list[i].main.temp_max;
                 date = listDate;
             }
         }
-        console.log('date : ' + date);
+        console.log('date : ' + date.toLocaleDateString("fr-FR"));
         console.log('temp : ' + temp + 'C°');
+
+        let bestDay = {
+            "date": date,
+            "temp": temp
+        }
 
     })
 }
