@@ -61,6 +61,7 @@ function getIntentResponse(intents){
             }
         }
     };
+    console.log('function response : ' + response);
     return response;
 }
 
@@ -83,6 +84,7 @@ async function handleMessage(sender_psid, received_message) {
 
         //Checks if the intent is known
         response = getIntentResponse(intents);
+        console.log('function handleMessage response : ' + response);
 
         //Default response
         if(response == null) {
