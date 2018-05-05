@@ -123,7 +123,7 @@ function getIntentResponse(value, intents){
                 let date = jsonBestDay.date;
                 let month = jsonBestDay.month;
                 let temp = jsonBestDay.temp;
-                let text = intents[intent][Math.floor(Math.random()*intents[intent].length)] + "Vous pouvez venir nous rendre visite le " + day + " " + date + " " + month + ". Ca sera le jour le plus chaud de la semaine avec " + temp;
+                let text = "" + intents[intent][Math.floor(Math.random()*intents[intent].length)] + "Vous pouvez venir nous rendre visite le " + day + " " + date + " " + month + ". Ca sera le jour le plus chaud de la semaine avec " + temp;
                 response = {
                     "text": text
                 }
