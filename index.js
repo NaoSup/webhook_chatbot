@@ -67,6 +67,7 @@ function getApiData() {
 async function getBestWeather() {
   let bestDay;
   const json = await getApiData();
+  console.log(json);
   const list = json.list;
   let fullDate = new Date(list[0].dt_txt);
   let temp = list[0].main.temp_max;
