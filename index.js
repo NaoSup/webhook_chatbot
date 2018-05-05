@@ -27,10 +27,10 @@ function callSendAPI(REQUEST_BODY) {
     json: REQUEST_BODY,
   }, (err) => {
     if (err) {
-      console.error('Unable to send message: ' + err);
+      console.error(`Unable to send message: ${err}`);
     }
   });
-};
+}
 
 // Send sender action typing on
 function senderAction(SENDER_PSID) {
@@ -42,12 +42,11 @@ function senderAction(SENDER_PSID) {
     sender_action: 'typing_on',
   };
   callSendAPI(REQUEST_BODY);
-};
-  
-  
+}
+
 // Gets the data from the weather API
 function getApiData() {
-  const url = 'http://api.openweathermap.org/data/2.5/forecast?q=Nanterre,fr&units=metric&mode=json&lang=fr&APPID='+ WEATHER_API_KEY;
+  const url = `http://api.openweathermap.org/data/2.5/forecast?q=Nanterre,fr&units=metric&mode=json&lang=fr&APPID=${WEATHER_API_KEY}`;
   return new Promise((resolve, reject) => {
     request.get(url, (err, response, body) => {
       if (err) {
@@ -57,8 +56,8 @@ function getApiData() {
       }
     });
   });
-};
-  
+}
+
 // Gets the best weather condition of the week
 async function getBestWeather() {
   let bestDay;
@@ -74,7 +73,7 @@ async function getBestWeather() {
       fullDate = listDate;
     }
   }
-  
+
   // Gets the day of the week
   const weekdays = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
   let day;
@@ -83,31 +82,31 @@ async function getBestWeather() {
       day = weekdays[i];
     }
   }
-  
+
   // Gets the date
   const date = fullDate.getDate();
-  
+
   // Gets the month
   const months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-    let month;
-    for (var i = 0; i < months.length; i++) {
-      if (fullDate.getMonth() == i) {
-        month = months[i];
-      }
+  let month;
+  for (var i = 0; i < months.length; i++) {
+    if (fullDate.getMonth() == i) {
+      month = months[i];
     }
-  
-    // Sends best day data as json
-    bestDay = {
-      day,
-      date,
-      month,
-      temp: `${temp}C°`,
-    };
-    return bestDay;
+  }
+
+  // Sends best day data as json
+  bestDay = {
+    day,
+    date,
+    month,
+    temp: `${temp}C°`,
   };
- 
-  // Finds the response corresponding with the intent
-  async function getIntentResponse(value, intents) {
+  return bestDay;
+}
+
+// Finds the response corresponding with the intent
+async function getIntentResponse(value, intents) {
   const jsonBestDay = await getBestWeather();
   let response;
   for (const intent in intents) {
@@ -120,61 +119,61 @@ async function getBestWeather() {
         const text = `${intents[intent][Math.floor(Math.random() * intents[intent].length)]}Vous pouvez venir nous rendre visite le ${day} ${date} ${month}. Ca sera le jour le plus chaud de la semaine avec ${temp}`;
         response = {
           text,
-          };
-        } else {
-          response = {
-            text: intents[intent][Math.floor(Math.random() * intents[intent].length)],
-          };
-        }
-      }
-    } 
-    return response;
-  };
-  
-  // Handles messages events
-  async function handleMessage(SENDER_PSID, received_message) {
-    let value;
-    let confidence;
-    let response;
-    const fileContent = await readFile('json/intents.json');
-    const intents = JSON.parse(fileContent);
-  
-    console.log(received_message.nlp.entities);
-  
-    if (received_message.text) {
-      // Verifies if there is an intent
-      if (received_message.nlp.entities.intent) {
-        value = received_message.nlp.entities.intent[0].value;
-        confidence = received_message.nlp.entities.intent[0].confidence;
-      }
-  
-      // Checks if the intent is known
-      response = await getIntentResponse(value, intents);
-      // Default response
-      if (response == null) {
+        };
+      } else {
         response = {
-          text: "Je n'ai pas bien compris votre demande...",
+          text: intents[intent][Math.floor(Math.random() * intents[intent].length)],
         };
       }
     }
-    console.log(response);
-    // Construct the message body
-    const REQUEST_BODY = {
-      messaging_type: 'RESPONSE',
-      recipient: {
-        id: SENDER_PSID,
-      },
-      message: response,
-    };
-  
+  }
+  return response;
+}
+
+// Handles messages events
+async function handleMessage(SENDER_PSID, received_message) {
+  let value;
+  let confidence;
+  let response;
+  const fileContent = await readFile('json/intents.json');
+  const intents = JSON.parse(fileContent);
+
+  console.log(received_message.nlp.entities);
+
+  if (received_message.text) {
+    // Verifies if there is an intent
+    if (received_message.nlp.entities.intent) {
+      value = received_message.nlp.entities.intent[0].value;
+      confidence = received_message.nlp.entities.intent[0].confidence;
+    }
+
+    // Checks if the intent is known
+    response = await getIntentResponse(value, intents);
+    // Default response
+    if (response == null) {
+      response = {
+        text: "Je n'ai pas bien compris votre demande...",
+      };
+    }
+  }
+  console.log(response);
+  // Construct the message body
+  const REQUEST_BODY = {
+    messaging_type: 'RESPONSE',
+    recipient: {
+      id: SENDER_PSID,
+    },
+    message: response,
+  };
+
     // Sends the response message
-    callSendAPI(REQUEST_BODY);
-  };
-  
-  // Handles messaging_postbacks events
-  function handlePostback(SENDER_PSID, received_postback) {
-  
-  };
+  callSendAPI(REQUEST_BODY);
+}
+
+// Handles messaging_postbacks events
+function handlePostback(SENDER_PSID, received_postback) {
+
+}
 
 // Creates the endpoint for the webhook
 app.post('/webhook', (req, res) => {
