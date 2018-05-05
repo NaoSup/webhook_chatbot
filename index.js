@@ -51,11 +51,10 @@ app.get('/webhook', (req, res) => {
             res.sendStatus(403);
         }
     }
-    getBestWeather();
 });
 
 //Gets the best weather condition of the week
-function getBestWeather(){
+async function getBestWeather(){
     let url = 'http://api.openweathermap.org/data/2.5/forecast?q=Nanterre,fr&units=metric&mode=json&lang=fr&APPID='+WEATHER_API_KEY;
     
     request.get(url, (err, response, body) => {
@@ -100,12 +99,12 @@ function getBestWeather(){
             "temp": temp + "C°"
         }
         
-        return bestDay;
+        return await bestDay;
     })
 }
 
-function getIntentResponse(value, intents, bestDay){
-    let jsonBestDay = bestDay;
+function getIntentResponse(value, intents){
+    let jsonBestDay = getBestWeather();
     let response;
 
     for(var intent in intents) {
