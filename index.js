@@ -16,7 +16,7 @@ const { PAGE_ACCESS_TOKEN, WEATHER_API_KEY } = process.env;
 const app = express().use(bodyParser.json());
 
 // Sets server port and logs message on success
-app.listen(process.env.PORT || 1337, () => console.log('webhook is listening...'));
+app.listen(process.env.PORT || 1337);
 
 // Sends response via the Send API
 function callSendAPI(REQUEST_BODY) {
@@ -27,7 +27,7 @@ function callSendAPI(REQUEST_BODY) {
     json: REQUEST_BODY,
   }, (err) => {
     if (err) {
-      console.error(`Unable to send message: ${err}`);
+      throw err;
     }
   });
 }
@@ -65,7 +65,7 @@ async function getBestWeather() {
   let fullDate = new Date(list[0].dt_txt);
   let temp = list[0].main.temp_max;
 
-  for (let i = 1; i < list.length; i++) {
+  for (let i = 1; i < list.length; i += 1) {
     const listDate = new Date(list[i].dt_txt);
     if (list[i].main.temp_max >= temp && listDate.getDay() !== 6 && listDate.getDay() !== 0) {
       temp = list[i].main.temp_max;
@@ -76,7 +76,7 @@ async function getBestWeather() {
   // Gets the day of the week
   const weekdays = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
   let day;
-  for (let i = 0; i < weekdays.length; i++) {
+  for (let i = 0; i < weekdays.length; i += 1) {
     if (fullDate.getDay() === i) {
       day = weekdays[i];
     }
@@ -88,7 +88,7 @@ async function getBestWeather() {
   // Gets the month
   const months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
   let month;
-  for (let i = 0; i < months.length; i++) {
+  for (let i = 0; i < months.length; i += 1) {
     if (fullDate.getMonth() === i) {
       month = months[i];
     }
@@ -152,7 +152,6 @@ async function handleMessage(SENDER_PSID, RECEIVED_MESSAGE) {
       };
     }
   }
-  console.log(response);
   // Construct the message body
   const REQUEST_BODY = {
     messaging_type: 'RESPONSE',
@@ -167,7 +166,7 @@ async function handleMessage(SENDER_PSID, RECEIVED_MESSAGE) {
 }
 
 // Handles messaging_postbacks events
-function handlePostback(SENDER_PSID, received_postback) {
+function handlePostback(SENDER_PSID, RECEIVED_POSTBACK) {
 
 }
 
@@ -176,7 +175,6 @@ app.post('/webhook', (req, res) => {
   if (req.body.object === 'page') {
     req.body.entry.forEach((entry) => {
       const WEBHOOK_EVENT = entry.messaging[0];
-      console.log(WEBHOOK_EVENT);
       // Gets the user ID
       const SENDER_PSID = WEBHOOK_EVENT.sender.id;
 
@@ -205,7 +203,6 @@ app.get('/webhook', (req, res) => {
 
   if (mode && token) {
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-      console.log('WEBHOOK_VERIFIED');
       res.status(200).send(challenge);
     } else {
       res.sendStatus(403);
