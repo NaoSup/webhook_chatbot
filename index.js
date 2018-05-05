@@ -52,7 +52,7 @@ app.get('/webhook', (req, res) => {
     }
 });
 
-function getIntentResponse(intents){
+function getIntentResponse(value, intents){
     let response;
     for(var intent in intents) {
         if(intent == value){
@@ -83,7 +83,7 @@ async function handleMessage(sender_psid, received_message) {
         }
 
         //Checks if the intent is known
-        response = getIntentResponse(intents);
+        response = getIntentResponse(value, intents);
         console.log('function handleMessage response : ' + response);
 
         //Default response
