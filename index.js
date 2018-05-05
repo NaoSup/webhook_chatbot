@@ -53,6 +53,7 @@ app.get('/webhook', (req, res) => {
 });
 
 function getIntentResponse(intents){
+    let response;
     for(var intent in intents) {
         if(intent == value){
             response = {
