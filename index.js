@@ -3,6 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
 const request = require('request');
 const fs = require('fs');
 const util = require('util');
@@ -52,14 +53,30 @@ app.get('/webhook', (req, res) => {
     }
 });
 
+function getBestWeather(){
+    let url = 'http://api.openweathermap.org/data/2.5/forecast?q=Nanterre,fr&units=metric&mode=json&lang=fr&APPID='+WEATHER_API_KEY;
+    request.get(url, (err, response, body) => {
+        if(err) throw err;
+        let result = JSON.parse(body);
+        console.log('weather : ' + result);
+
+    })
+}
+
 function getIntentResponse(value, intents){
     let response;
     for(var intent in intents) {
         if(intent == value){
+            if(intent == 'school_location') {
+                response = {
+                    "text": intents[intent][Math.floor(Math.random()*intents[intent].length)] + "Vous pouvez venir nous rendre visite ce jour là."
+                }
+            }
             response = {
                 "text": intents[intent][Math.floor(Math.random()*intents[intent].length)]
             }
         }
+        
     };
     return response;
 }
@@ -73,6 +90,7 @@ async function handleMessage(sender_psid, received_message) {
     const intents = JSON.parse(fileContent);
     
     console.log(received_message.nlp.entities);
+    getBestWeather();
     
     if (received_message.text) {
         // Verifies if there is an intent
@@ -83,7 +101,6 @@ async function handleMessage(sender_psid, received_message) {
 
         //Checks if the intent is known
         response = getIntentResponse(value, intents);
-
         //Default response
         if(response == null) {
             response = {
