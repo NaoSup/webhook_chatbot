@@ -104,17 +104,18 @@ function getBestWeather(){
     })
 }
 
-async function getIntentResponse(value, intents){
+function getIntentResponse(value, intents){
+    let jsonBestDay = getBestWeather();
     let response;
+
     for(var intent in intents) {
         if(intent == value){
             if(intent == 'greetings') {
-                const jsonBestDay = await getBestWeather();
                 console.log(jsonBestDay);
-                const day = jsonBestDay.day;
-                const date = jsonBestDay.date;
-                const month = jsonBestDay.month;
-                const temp = jsonBestDay.temp;
+                let day = jsonBestDay.day;
+                let date = jsonBestDay.date;
+                let month = jsonBestDay.month;
+                let temp = jsonBestDay.temp;
                 
                 response = {
                     "text": intents[intent][Math.floor(Math.random()*intents[intent].length)] + "Vous pouvez venir nous rendre visite le " + day + " " + date + " " + month + ". Ca sera le jour le plus chaud de la semaine avec " + temp
