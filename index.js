@@ -104,14 +104,13 @@ function getBestWeather(){
     })
 }
 
-function getIntentResponse(value, intents){
-    let jsonBestDay = getBestWeather();
+function getIntentResponse(value, intents, bestDay){
+    let jsonBestDay = bestDay;
     let response;
 
     for(var intent in intents) {
         if(intent == value){
             if(intent == 'greetings') {
-                console.log(jsonBestDay);
                 let day = jsonBestDay.day;
                 let date = jsonBestDay.date;
                 let month = jsonBestDay.month;
@@ -137,6 +136,7 @@ async function handleMessage(sender_psid, received_message) {
     let response;
     const fileContent = await readFile('json/intents.json');
     const intents = JSON.parse(fileContent);
+    const bestDay = getBestWeather();
     
     console.log(received_message.nlp.entities);
     getBestWeather();
