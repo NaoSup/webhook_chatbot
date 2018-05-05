@@ -6,6 +6,7 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const request = require('request');
 const fs = require('fs');
 const util = require('util');
+const readFile = util.promisify(fs.readFile);
 
 //creates express http server
 const app = express().use(bodyParser.json());
@@ -51,12 +52,22 @@ app.get('/webhook', (req, res) => {
     }
 });
 
+function getIntentResponse(intents){
+    for(var intent in intents) {
+        if(intent == value){
+            response = {
+                "text": intents[intent]
+            }
+        }
+    };
+    return response;
+}
+
 // Handles messages events
 async function handleMessage(sender_psid, received_message) {
     let value;
     let confidence;
     let response;
-    const readFile = util.promisify(fs.readFile);
     const fileContent = await readFile('json/intents.json');
     const intents = JSON.parse(fileContent);
     
@@ -70,14 +81,9 @@ async function handleMessage(sender_psid, received_message) {
         }
 
         //Checks if the intent is known
-        for(var intent in intents) {
-            if(intent == value){
-                console.log('intent : ' + intent + ' est égal à value : ' + value);
-                response = {
-                    "text": intents[intent]
-                }
-            }
-        };
+        response = getIntentResponse(intents);
+
+        //Default response
         if(response == null) {
             response = {
                 "text": "Je n'ai pas bien compris votre demande..."
@@ -103,9 +109,8 @@ function handlePostback(sender_psid, received_postback) {
 
 }
 
-// Sends response messages via the Send API
+// Sends response via the Send API
 function callSendAPI(request_body) {
-    // Send the HTTP request to the Messenger Platform
     request({
         "uri": "https://graph.facebook.com/v2.6/me/messages",
         "qs": { "access_token": PAGE_ACCESS_TOKEN },
