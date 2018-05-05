@@ -103,12 +103,12 @@ function getBestWeather(){
     })
 }
 
-async function getIntentResponse(value, intents){
+function getIntentResponse(value, intents){
     let response;
     for(var intent in intents) {
         if(intent == value){
             if(intent == 'greetings') {
-                jsonBestDay = await getBestWeather();
+                const jsonBestDay = getBestWeather();
                 const day = jsonBestDay.day;
                 const date = jsonBestDay.date;
                 const month = jsonBestDay.month;
