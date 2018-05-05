@@ -57,7 +57,7 @@ app.get('/webhook', (req, res) => {
 function getBestWeather(){
     let url = 'http://api.openweathermap.org/data/2.5/forecast?q=Nanterre,fr&units=metric&mode=json&lang=fr&APPID='+WEATHER_API_KEY;
     let bestDay;
-    await request.get(url, (err, response, body) => {
+    request.get(url, (err, response, body) => {
         if(err) throw err;
         const result = JSON.parse(body);
         const list = result.list;
