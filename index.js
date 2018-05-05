@@ -134,7 +134,6 @@ async function handleMessage(sender_psid, received_message) {
     let response;
     const fileContent = await readFile('json/intents.json');
     const intents = JSON.parse(fileContent);
-    const bestDay = util.promisify(getBestWeather());
     
     console.log(received_message.nlp.entities);
     getBestWeather();
@@ -147,7 +146,7 @@ async function handleMessage(sender_psid, received_message) {
         }
 
         //Checks if the intent is known
-        response = getIntentResponse(value, intents, bestDay);
+        response = getIntentResponse(value, intents);
         //Default response
         if(response == null) {
             response = {
