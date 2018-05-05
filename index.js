@@ -83,18 +83,8 @@ async function handleMessage(sender_psid, received_message) {
                 "text": "Je n'ai pas bien compris votre demande..."
             }
         }
-    }    
-    // Sends the response message
-    callSendAPI(sender_psid, response);    
-  }
-
-// Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
-
-}
-
-// Sends response messages via the Send API
-function callSendAPI(sender_psid, response) {
+    }
+    
     // Construct the message body
     let request_body = {
         "messaging_type": "RESPONSE",
@@ -103,7 +93,18 @@ function callSendAPI(sender_psid, response) {
         },
         "message": response
     }
+    
+    // Sends the response message
+    callSendAPI(request_body);    
+  }
 
+// Handles messaging_postbacks events
+function handlePostback(sender_psid, received_postback) {
+
+}
+
+// Sends response messages via the Send API
+function callSendAPI(request_body) {
     // Send the HTTP request to the Messenger Platform
     request({
         "uri": "https://graph.facebook.com/v2.6/me/messages",
