@@ -56,10 +56,15 @@ function getIntentResponse(value, intents){
     let response;
     for(var intent in intents) {
         if(intent == value){
-            response = {
-                "text": intents[intent][Math.floor(Math.random()*intents[intent].length)]
+            if(intents[intent].length > 1){
+                response = {
+                    "text": intents[intent][Math.floor(Math.random()*intents[intent].length)]
+                }
+            } else {
+                response = {
+                    "text": intents[intent]
+                }
             }
-          
         }
     };
     return response;
