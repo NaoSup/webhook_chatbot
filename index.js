@@ -98,8 +98,12 @@ async function getBestWeather(){
             "month": month,
             "temp": temp + "C°"
         }
+        try {
+            return await bestDay;
+        } catch (err) {
+            console.log(err);
+        }
         
-        return await bestDay;
     })
 }
 
