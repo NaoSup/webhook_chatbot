@@ -62,7 +62,7 @@ function getBestWeather(){
         const result = JSON.parse(body);
         return result;
     });
-    const list = result.list;
+    const list = json.list;
     let fullDate = new Date(list[0].dt_txt);
     let temp = list[0].main.temp_max;
         
