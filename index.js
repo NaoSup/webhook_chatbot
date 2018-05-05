@@ -57,48 +57,49 @@ app.get('/webhook', (req, res) => {
 function getBestWeather(){
     let url = 'http://api.openweathermap.org/data/2.5/forecast?q=Nanterre,fr&units=metric&mode=json&lang=fr&APPID='+WEATHER_API_KEY;
     let bestDay;
-    request.get(url, (err, response, body) => {
+    const json = request.get(url, (err, response, body) => {
         if(err) throw err;
         const result = JSON.parse(body);
-        const list = result.list;
-        let fullDate = new Date(list[0].dt_txt);
-        let temp = list[0].main.temp_max;
-        
-        for(var i = 1; i < list.length; i++){
-            let listDate = new Date(list[i].dt_txt); 
-            if(list[i].main.temp_max >= temp && listDate.getDay() != 6 && listDate.getDay() != 0){
-                temp = list[i].main.temp_max;
-                fullDate = listDate;
-            }
-        }
-        
-        //Gets the day of the week
-        const weekdays = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
-        let day;
-        for(var i = 0; i < weekdays.length; i++) {
-            if(fullDate.getDay() == i) {
-                day = weekdays[i];
-            }
-        }
-
-        //Gets the date
-        let date = fullDate.getDate();
-
-        //Get the month
-        const months = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-        let month;
-        for(var i = 0; i < months.length; i++) {
-            if(fullDate.getMonth() == i) {
-                month = months[i];
-            }
-        }
-        bestDay = {
-            "day": day,
-            "date": date,
-            "month": month,
-            "temp": temp + "C°"
-        }
+        return result;
     });
+    const list = result.list;
+    let fullDate = new Date(list[0].dt_txt);
+    let temp = list[0].main.temp_max;
+        
+    for(var i = 1; i < list.length; i++){
+        let listDate = new Date(list[i].dt_txt); 
+        if(list[i].main.temp_max >= temp && listDate.getDay() != 6 && listDate.getDay() != 0){
+            temp = list[i].main.temp_max;
+            fullDate = listDate;
+        }
+    }
+        
+    //Gets the day of the week
+    const weekdays = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+    let day;
+    for(var i = 0; i < weekdays.length; i++) {
+        if(fullDate.getDay() == i) {
+            day = weekdays[i];
+        }
+    }
+
+    //Gets the date
+    let date = fullDate.getDate();
+
+    //Get the month
+    const months = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+    let month;
+    for(var i = 0; i < months.length; i++) {
+        if(fullDate.getMonth() == i) {
+            month = months[i];
+        }
+    }
+    bestDay = {
+        "day": day,
+        "date": date,
+        "month": month,
+        "temp": temp + "C°"
+    }
     return bestDay;
 }
 
