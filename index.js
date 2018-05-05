@@ -51,14 +51,26 @@ app.get('/webhook', (req, res) => {
             res.sendStatus(403);
         }
     }
+    getBestWeather();
 });
 
 function getBestWeather(){
     let url = 'http://api.openweathermap.org/data/2.5/forecast?q=Nanterre,fr&units=metric&mode=json&lang=fr&APPID='+WEATHER_API_KEY;
     request.get(url, (err, response, body) => {
         if(err) throw err;
-        let result = JSON.parse(body);
-        console.log('weather : ' + result.list[0].dt_txt);
+        const result = JSON.parse(body);
+        const list = result.list;
+        let date = new Date(list[0].dt_txt);
+        let temp = list[0].main.temp;
+        for(var i = 1; i < list.length; i++){
+            let listDate = new Date(list[i].dt_txt); 
+            if(list[i].main.temp >= temp && listDate.getDay() != 6 && listDate.getDay() != 0){
+                temp = list[i].main.temp;
+                date = listDate;
+            }
+        }
+        console.log('date : ' + date);
+        console.log('temp : ' + temp + 'C°');
 
     })
 }
