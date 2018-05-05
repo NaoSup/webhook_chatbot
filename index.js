@@ -31,7 +31,7 @@ function callSendAPI(REQUEST_BODY) {
       console.log('message sent! ');
       // console.log(request_body.message);
     } else {
-      console.error(`Unable to send message:${err}`);
+      console.error('Unable to send message: ' + err);
     }
   });
 };
@@ -51,7 +51,7 @@ function senderAction(SENDER_PSID) {
   
 // Gets the data from the weather API
 function getApiData() {
-  const url = `http://api.openweathermap.org/data/2.5/forecast?q=Nanterre,fr&units=metric&mode=json&lang=fr&APPID=${WEATHER_API_KEY}`;
+  const url = 'http://api.openweathermap.org/data/2.5/forecast?q=Nanterre,fr&units=metric&mode=json&lang=fr&APPID='+ WEATHER_API_KEY;
   return new Promise((resolve, reject) => {
     request.get(url, (err, response, body) => {
       if (err) {
