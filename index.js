@@ -109,7 +109,8 @@ async function getBestWeather(){
         "month": month,
         "temp": temp + "C°"
     }
-    return bestDay;
+    console.log(bestDay);
+    //return bestDay;
 }
 
 function getIntentResponse(value, intents){
