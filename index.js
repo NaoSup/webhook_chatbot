@@ -149,7 +149,7 @@ async function handleMessage(sender_psid, received_message) {
         }
 
         //Checks if the intent is known
-        response = getIntentResponse(value, intents);
+        response = getIntentResponse(value, intents, bestDay);
         //Default response
         if(response == null) {
             response = {
