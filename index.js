@@ -10,8 +10,7 @@ const util = require('util');
 
 const readFile = util.promisify(fs.readFile);
 
-const { PAGE_ACCESS_TOKEN } = process.env;
-const { WEATHER_API_KEY } = process.env;
+const { PAGE_ACCESS_TOKEN, WEATHER_API_KEY } = process.env;
 
 // Creates express http server
 const app = express().use(bodyParser.json());
@@ -27,10 +26,7 @@ function callSendAPI(REQUEST_BODY) {
     method: 'POST',
     json: REQUEST_BODY,
   }, (err) => {
-    if (!err) {
-      console.log('message sent! ');
-      // console.log(request_body.message);
-    } else {
+    if (err) {
       console.error('Unable to send message: ' + err);
     }
   });
@@ -67,7 +63,6 @@ function getApiData() {
 async function getBestWeather() {
   let bestDay;
   const json = await getApiData();
-  console.log(json);
   const list = json.list;
   let fullDate = new Date(list[0].dt_txt);
   let temp = list[0].main.temp_max;
