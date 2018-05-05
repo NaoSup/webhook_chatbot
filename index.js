@@ -109,11 +109,11 @@ async function getBestWeather(){
         "month": month,
         "temp": temp + "C°"
     }
-    return await bestDay;
+    return bestDay;
 }
 
-function getIntentResponse(value, intents){
-    let jsonBestDay = getBestWeather();
+async function getIntentResponse(value, intents){
+    let jsonBestDay = await getBestWeather();
     let response;
     console.log(jsonBestDay);
     for(var intent in intents) {
