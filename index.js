@@ -72,7 +72,9 @@ function getBestWeather(){
                 date = listDate;
             }
         }
-        console.log('date : ' + date.toLocaleDateString("fr-FR"));
+
+        let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        console.log('date : ' + date.toLocaleDateString("fr-FR", options));
         console.log('temp : ' + temp + 'C°');
 
         let bestDay = {
