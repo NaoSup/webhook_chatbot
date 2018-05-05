@@ -99,8 +99,8 @@ function getBestWeather(){
             "month": month,
             "temp": temp + "C°"
         }
-        console.log(bestDay);
-        //return bestDay;
+        
+        return bestDay;
     })
 }
 
@@ -114,6 +114,7 @@ function getIntentResponse(value, intents){
                 const date = jsonBestDay.date;
                 const month = jsonBestDay.month;
                 const temp = jsonBestDay.temp;
+                console.log(jsonBestDay);
                 response = {
                     "text": intents[intent][Math.floor(Math.random()*intents[intent].length)] + "Vous pouvez venir nous rendre visite le " + day + " " + date + " " + month + ". Ca sera le jour le plus chaud de la semaine avec " + temp
                 }
