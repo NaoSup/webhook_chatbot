@@ -135,6 +135,7 @@ async function getIntentResponse(value, intents){
         }
         
     };
+    console.log(response);
     return response;
 }
 
@@ -175,7 +176,7 @@ async function handleMessage(sender_psid, received_message) {
     }
     
     // Sends the response message
-    await callSendAPI(request_body);    
+    callSendAPI(request_body);    
   }
 
 // Handles messaging_postbacks events
@@ -193,7 +194,7 @@ function callSendAPI(request_body) {
     }, (err, res, body) => {
         if (!err) {
             console.log('message sent! ');
-            console.log(request_body.message);
+            //console.log(request_body.message);
         } else {
             console.error("Unable to send message:" + err);
         }
