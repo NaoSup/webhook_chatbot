@@ -62,25 +62,44 @@ function getBestWeather(){
         if(err) throw err;
         const result = JSON.parse(body);
         const list = result.list;
-        let date = new Date(list[0].dt_txt);
+        let fullDate = new Date(list[0].dt_txt);
         let temp = list[0].main.temp_max;
         
         for(var i = 1; i < list.length; i++){
             let listDate = new Date(list[i].dt_txt); 
             if(list[i].main.temp_max >= temp && listDate.getDay() != 6 && listDate.getDay() != 0){
                 temp = list[i].main.temp_max;
-                date = listDate;
+                fullDate = listDate;
+            }
+        }
+        
+        //Gets the day of the week
+        const weekdays = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+        let day;
+        for(var i = 0; i < weekdays.length; i++) {
+            if(fullDate.getDay() == i) {
+                day = weekdays[i];
             }
         }
 
-        console.log('date : ' + date.toJSON());
-        console.log('temp : ' + temp + 'C°');
+        //Gets the date
+        let date = fullDate.getDate();
 
-        let bestDay = {
-            "date": date,
-            "temp": temp
+        //Get the month
+        const months = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+        let month;
+        for(var i = 0; i < months.length; i++) {
+            if(fullDate.getMonth() == i) {
+                month = months[i];
+            }
         }
-
+        let bestDay = {
+            "day": day,
+            "date": date,
+            "month": month,
+            "temp": temp + "C°"
+        }
+        return bestDay;
     })
 }
 
@@ -88,9 +107,14 @@ function getIntentResponse(value, intents){
     let response;
     for(var intent in intents) {
         if(intent == value){
-            if(intent == 'school_location') {
+            if(intent == 'greetings') {
+                jsonBestDay = getBestWeather();
+                const day = jsonBestDay.day;
+                const date = jsonBestDay.date;
+                const month = jsonBestDay.month;
+                const temp = jsonBestDay.temp;
                 response = {
-                    "text": intents[intent][Math.floor(Math.random()*intents[intent].length)] + "Vous pouvez venir nous rendre visite ce jour là."
+                    "text": intents[intent][Math.floor(Math.random()*intents[intent].length)] + "Vous pouvez venir nous rendre visite le " + day + " " + date + " " + month + ". Ca sera le jour le plus chaud de la semaine avec " + temp
                 }
             }
             response = {
