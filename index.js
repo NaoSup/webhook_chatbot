@@ -152,13 +152,17 @@ async function handleMessage(SENDER_PSID, RECEIVED_MESSAGE) {
 
     // Checks if the intent is known
     response = await getIntentResponse(value, confidence, entities, intents);
+
+    console.log(response);
     // Default response
     if (response === null) {
       response = {
         text: "Je n'ai pas bien compris votre demande...",
       };
     }
+    console.log(response);
   }
+  console.log(response);
   // Construct the message body
   const REQUEST_BODY = {
     messaging_type: 'RESPONSE',

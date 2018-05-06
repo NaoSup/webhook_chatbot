@@ -30,11 +30,32 @@
             }
         }
     }],
+    "school_admission": [],
     "school_degrees": [{
         "text": "Nous proposons un Bachelor(Bac+3) et un Mastère(Bac+5). A la fin de la formation, nous délivrons le titre d'Expert Informatique et Systèmes d'Information"
     }],
     "school_description": [{
         "text": "Ingésup est une école en ingénierie informatique."
+    }],
+    "school_location":[{
+        "default": {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                  "template_type": "button",
+                  "text": "Nous sommes situés au 12 rue Anatole France, 92100 Nanterre.",
+                  "buttons": [
+                    {
+                      "type": "postback",
+                      "title": "Comment venir ?",
+                      "payload": "howtogethere"
+                    }]  
+                }
+            } 
+        },
+        "transport": {
+            "text": "Vous pouvez prendre le RER A ou Ligne L jusqu'à la gare de Nanterre-Université."
+        }
     }],
     "school_prices":[{
         "default": {
@@ -63,26 +84,6 @@
         "mastere": {
             "text":"Les tarifs sont de 8000€ pour chaque année de Mastère."
         } 
-    }],
-    "school_location":[{
-        "default": {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                  "template_type": "button",
-                  "text": "Nous sommes situés au 12 rue Anatole France, 92100 Nanterre.",
-                  "buttons": [
-                    {
-                      "type": "postback",
-                      "title": "Comment venir ?",
-                      "payload": "howtogethere"
-                    }]  
-                }
-            } 
-        },
-        "transport": {
-            "text": "Vous pouvez prendre le RER A ou Ligne L jusqu'à la gare de Nanterre-Université."
-        }
     }],
     "state_recognition":[{
         "text": "Nos diplômes de Bachelor et de Mastère sont enregistrés respectivement au niveau 2 et au niveau 1 au RNCP."
