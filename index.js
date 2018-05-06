@@ -180,19 +180,13 @@ async function handlePostback(SENDER_PSID, RECEIVED_POSTBACK) {
   const intents = JSON.parse(fileContent);
   switch (payload) {
     case 'bachelor':
-      response = {
-        text: intents['school_prices'][0].bachelor
-      }
+      response = intents['school_prices'][0].bachelor;
       break;
     case 'mastere':
-      response = {
-        text: intents['school_prices'][0].mastere
-      }
+      response = intents['school_prices'][0].mastere;
       break;
     case 'howtogethere':
-      response = {
-        text: intents['school_location'][0].transport
-      } 
+      response = intents['school_location'][0].transport;
       break; 
     default:
       break;
