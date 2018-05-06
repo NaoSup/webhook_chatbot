@@ -123,6 +123,7 @@ async function getIntentResponse(value, confidence, entities, intents) {
               text: intents[intent][0].default
             }
           }
+          break;
         case 'school_location':
           if(entities.come){
             response = {
