@@ -105,7 +105,7 @@ async function getBestWeather() {
 }
 
 // Finds the response corresponding with the intent
-async function getIntentResponse(value, confidence, intents) {
+async function getIntentResponse(value, confidence, entities, intents) {
   const jsonBestDay = await getBestWeather();
   let response;
   for (const intent in intents) {
@@ -117,27 +117,37 @@ async function getIntentResponse(value, confidence, intents) {
           text: text
         };
       } else if (intent === 'school_prices') {
-        response = {
-          attachment: {
-            'type': 'template',
-            'payload': {
-              'template_type': 'button',
-              'text': intents[intent][0].default + " Par quel cursus êtes vous intéressez ?",
-              'buttons': [
-                {
-                  'type': 'postback',
-                  'title': 'Bachelor',
-                  'payload': 'bachelor',
-                },
-                {
-                  'type': 'postback',
-                  'title': 'Mastère',
-                  'payload': 'mastere',
-                }
-              ]  
+        if (entities.bachelor) {
+          response = {
+            text: intents[intent][0].bachelor
+          }
+        } else if (entities.mastere) {
+          response = {
+            text: intents[intent][0].mastere
+          }
+        } else {
+          response = {
+            attachment: {
+              'type': 'template',
+              'payload': {
+                'template_type': 'button',
+                'text': intents[intent][0].default + " Par quel cursus êtes vous intéressez ?",
+                'buttons': [
+                  {
+                    'type': 'postback',
+                    'title': 'Bachelor',
+                    'payload': 'bachelor',
+                  },
+                  {
+                    'type': 'postback',
+                    'title': 'Mastère',
+                    'payload': 'mastere',
+                  }
+                ]  
+              }
             }
           }
-        }
+        }   
       } else {
         response = {
           text: intents[intent][Math.floor(Math.random() * intents[intent].length)],
@@ -153,6 +163,7 @@ async function handleMessage(SENDER_PSID, RECEIVED_MESSAGE) {
   let value;
   let confidence;
   let response;
+  let entities = RECEIVED_MESSAGE.nlp.entities;
   const fileContent = await readFile('json/intents.json');
   const intents = JSON.parse(fileContent);
 
@@ -161,13 +172,13 @@ async function handleMessage(SENDER_PSID, RECEIVED_MESSAGE) {
 
   if (RECEIVED_MESSAGE.text) {
     // Verifies if there is an intent
-    if (RECEIVED_MESSAGE.nlp.entities.intent) {
-      value = RECEIVED_MESSAGE.nlp.entities.intent[0].value;
-      confidence = RECEIVED_MESSAGE.nlp.entities.intent[0].confidence;
+    if (entities.intent) {
+      value = entities.intent[0].value;
+      confidence = entities.intent[0].confidence;
     }
 
     // Checks if the intent is known
-    response = await getIntentResponse(value, confidence, intents);
+    response = await getIntentResponse(value, confidence, entities, intents);
     // Default response
     if (response === null) {
       response = {
