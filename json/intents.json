@@ -1,10 +1,20 @@
 {
     "alternance": [{
-        "default": "L'alternance est possible à partir de la troisième année de bachelor sur un rythme de 2 jours école / 3 jours entreprise par semaine.",
-        "contract": "Nous proposons aux étudiants trois contrats: le contrat de stage, le contrat de professionnalisation et le contrat d'apprentissage."
+        "default": {
+            "text": "L'alternance est possible à partir de la troisième année de bachelor sur un rythme de 2 jours école / 3 jours entreprise par semaine."
+        },
+        "contract": {
+            "text": "Nous proposons aux étudiants trois contrats: le contrat de stage, le contrat de professionnalisation et le contrat d'apprentissage."
+        }
     }],
-    "greetings": ["Bonjour ! :)", "Bienvenue !"],
-    "internship":["Les étudiants doivent effectuer des stages à temps plein en entreprise à la fin des deux premières années du cycle Bachelor."],
+    "greetings": [{
+        "text": "Bonjour !"
+    }, {
+        "text": "Bienvenue !"
+    }],
+    "internship":[{
+        "text": "Les étudiants doivent effectuer des stages à temps plein en entreprise à la fin des deux premières années du cycle Bachelor." 
+    }],
     "rncp":["Le titre RNCP (Répertoire National de la Certification Professionnelle) s'obtient et se renouvelle en fonction de l'employabilité de nos étudiants."],
     "school_degrees": ["Nous proposons un Bachelor(Bac+3) et un Mastère(Bac+5). A la fin de la formation, nous délivrons le titre d'Expert Informatique et Systèmes d'Information"],
     "school_description": ["Ingésup est une école en ingénierie informatique."],

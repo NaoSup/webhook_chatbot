@@ -124,6 +124,9 @@ async function getIntentResponse(value, confidence, entities, intents) {
             }
           }
           break;
+        case 'greetings':
+          response = intents[intent][Math.floor(Math.random() * intents[intent].length)];
+          break;
         case 'rncp':
           response = {
             attachment: {
