@@ -9,6 +9,6 @@
     }],
     "school_location":[{
         "default": "Nous sommes situés au 12 rue Anatole France, 92100 Nanterre.",
-        "transport":"RER A et Ligne L : Nanterre-Université"
+        "transport":"Vous pouvez prendre le RER A ou Ligne L jusqu'à la gare de Nanterre-Université"
     }]
 }

@@ -148,6 +148,29 @@ async function getIntentResponse(value, confidence, entities, intents) {
             }
           }
         }   
+      } else if (intent === 'school_location'){
+        if(entitiers.come){
+          response = {
+            text: intents[intent][0].transport
+          }
+        } else {
+          response = {
+            attachment: {
+              'type': 'template',
+              'payload': {
+                'template_type': 'button',
+                'text': intents[intent][0].default,
+                'buttons': [
+                  {
+                    'type': 'postback',
+                    'title': 'Comment venir ?',
+                    'payload': 'howtogethere',
+                  },
+                ]  
+              }
+            }
+          }
+        }
       } else {
         response = {
           text: intents[intent][Math.floor(Math.random() * intents[intent].length)],
@@ -202,16 +225,27 @@ async function handleMessage(SENDER_PSID, RECEIVED_MESSAGE) {
 // Handles messaging_postbacks events
 async function handlePostback(SENDER_PSID, RECEIVED_POSTBACK) {
   let response;
+  let payload = RECEIVED_POSTBACK.payload;
   const fileContent = await readFile('json/intents.json');
   const intents = JSON.parse(fileContent);
-  if (RECEIVED_POSTBACK.payload === 'bachelor') {
-    response = {
-      text: intents['school_prices'][0].bachelor
-    }
-  } else if(RECEIVED_POSTBACK.payload === 'mastere') {
-    response = {
-      text: intents['school_prices'][0].mastere
-    }
+  switch (payload) {
+    case 'bachelor':
+      response = {
+        text: intents['school_prices'][0].bachelor
+      }
+      break;
+    case 'mastere':
+      response = {
+        text: intents['school_prices'][0].mastere
+      }
+      break;
+    case 'howtogethere':
+      response = {
+        text: intents['school_location'][0].transport
+      } 
+      break; 
+    default:
+      break;
   }
 
   // Construct the message body
