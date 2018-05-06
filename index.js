@@ -183,13 +183,36 @@ async function handleMessage(SENDER_PSID, RECEIVED_MESSAGE) {
     message: response,
   };
 
-    // Sends the response message
+  // Sends the response message
   callSendAPI(REQUEST_BODY);
 }
 
 // Handles messaging_postbacks events
-function handlePostback(SENDER_PSID, RECEIVED_POSTBACK) {
+async function handlePostback(SENDER_PSID, RECEIVED_POSTBACK) {
+  let response;
+  const fileContent = await readFile('json/intents.json');
+  const intents = JSON.parse(fileContent);
+  if (RECEIVED_POSTBACK.payload === 'bachelor') {
+    response = {
+      text: intents['school_prices'][0].bachelor
+    }
+  } else if(RECEIVED_POSTBACK.payload === 'mastere') {
+    response = {
+      text: intents['school_prices'][0].mastere
+    }
+  }
 
+  // Construct the message body
+  const REQUEST_BODY = {
+    messaging_type: 'RESPONSE',
+    recipient: {
+      id: SENDER_PSID,
+    },
+    message: response,
+  };
+
+  // Sends the response message
+  callSendAPI(REQUEST_BODY);
 }
 
 // Creates the endpoint for the webhook
