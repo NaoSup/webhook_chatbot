@@ -124,6 +124,24 @@ async function getIntentResponse(value, confidence, entities, intents) {
             }
           }
           break;
+        case 'rncp':
+          response = {
+            attachment: {
+              'type': 'template',
+              'payload': {
+                'template_type': 'button',
+                'text': intents[intent][0],
+                'buttons': [
+                  {
+                    'type': 'web_url',
+                    'url': 'http://www.studyrama.com/formations/classements/un-titre-certifie-rncp-c-est-quoi-82171',
+                    'title': 'En savoir plus'
+                  },
+                ]  
+              }
+            }
+          }
+          break;
         case 'school_location':
           if(entities.come){
             response = {
