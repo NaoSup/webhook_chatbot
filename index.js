@@ -156,6 +156,7 @@ async function handleMessage(SENDER_PSID, RECEIVED_MESSAGE) {
   const fileContent = await readFile('json/intents.json');
   const intents = JSON.parse(fileContent);
 
+  console.log(RECEIVED_MESSAGE);
   console.log(RECEIVED_MESSAGE.nlp.entities);
 
   if (RECEIVED_MESSAGE.text) {
