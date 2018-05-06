@@ -113,99 +113,17 @@ async function getIntentResponse(value, confidence, entities, intents) {
   for (const intent in intents) {
     if (intent === value && confidence > 0.8) {
       switch (intent) {
-        case 'alternance':
-          if(entities.contract){
-            response = {
-              text: intents[intent][0].contract
-            }
-          } else {
-            response = {
-              text: intents[intent][0].default
-            }
-          }
-          break;
-        case 'greetings':
-          response = intents[intent][Math.floor(Math.random() * intents[intent].length)];
-          break;
-        case 'rncp':
-          response = {
-            attachment: {
-              'type': 'template',
-              'payload': {
-                'template_type': 'button',
-                'text': intents[intent][0],
-                'buttons': [
-                  {
-                    'type': 'web_url',
-                    'url': 'http://www.studyrama.com/formations/classements/un-titre-certifie-rncp-c-est-quoi-82171',
-                    'title': 'En savoir plus'
-                  },
-                ]  
-              }
-            }
-          }
-          break;
         case 'school_location':
           if(entities.come){
-            response = {
-              text: intents[intent][0].transport + " " + responseWeather
-            }
+            response = intents[intent][0].transport;
+            response.text += " " + responseWeather;
           } else {
-            response = {
-              attachment: {
-                'type': 'template',
-                'payload': {
-                  'template_type': 'button',
-                  'text': intents[intent][0].default + " " + responseWeather,
-                  'buttons': [
-                    {
-                      'type': 'postback',
-                      'title': 'Comment venir ?',
-                      'payload': 'howtogethere',
-                    },
-                  ]  
-                }
-              }
-            }
+            response = intents[intent][0].default;
+            response.attachment.payload.text += " " + responseWeather;
           }
           break;
-        case 'school_prices':
-          if (entities.bachelor) {
-            response = {
-              text: intents[intent][0].bachelor
-            }
-          } else if (entities.mastere) {
-            response = {
-              text: intents[intent][0].mastere
-            }
-          } else {
-            response = {
-              attachment: {
-                'type': 'template',
-                'payload': {
-                  'template_type': 'button',
-                  'text': intents[intent][0].default + " Par quel cursus êtes vous intéressez ?",
-                  'buttons': [
-                    {
-                      'type': 'postback',
-                      'title': 'Bachelor',
-                      'payload': 'bachelor',
-                    },
-                    {
-                      'type': 'postback',
-                      'title': 'Mastère',
-                      'payload': 'mastere',
-                    }
-                  ]  
-                }
-              }
-            }
-          }   
-          break;
         default:
-          response = {
-            text: intents[intent][Math.floor(Math.random() * intents[intent].length)],
-          };
+          response = intents[intent][Math.floor(Math.random() * intents[intent].length)];
           break;
         }
       }

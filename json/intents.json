@@ -15,18 +15,77 @@
     "internship":[{
         "text": "Les étudiants doivent effectuer des stages à temps plein en entreprise à la fin des deux premières années du cycle Bachelor." 
     }],
-    "rncp":["Le titre RNCP (Répertoire National de la Certification Professionnelle) s'obtient et se renouvelle en fonction de l'employabilité de nos étudiants."],
-    "school_degrees": ["Nous proposons un Bachelor(Bac+3) et un Mastère(Bac+5). A la fin de la formation, nous délivrons le titre d'Expert Informatique et Systèmes d'Information"],
-    "school_description": ["Ingésup est une école en ingénierie informatique."],
+    "rncp":[{
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "button",
+                "text": "Le titre RNCP (Répertoire National de la Certification Professionnelle) s'obtient et se renouvelle en fonction de l'employabilité de nos étudiants.",
+                "buttons": [
+                {
+                    "type": "web_url",
+                    "url": "http://www.studyrama.com/formations/classements/un-titre-certifie-rncp-c-est-quoi-82171",
+                    "title": "En savoir plus"
+                }]  
+            }
+        }
+    }],
+    "school_degrees": [{
+        "text": "Nous proposons un Bachelor(Bac+3) et un Mastère(Bac+5). A la fin de la formation, nous délivrons le titre d'Expert Informatique et Systèmes d'Information"
+    }],
+    "school_description": [{
+        "text": "Ingésup est une école en ingénierie informatique."
+    }],
     "school_prices":[{
-        "default": "Les frais de scolarité sont de 750€ par an mais les prix varient en fonction de l'année d'études.",
-        "bachelor": "Les tarifs du Bachelor sont de 6000€ (B1), 6800€ (B2) et 7300€ (B3).",
-        "mastere": "Les tarifs sont de 8000€ pour chaque année de Mastère."
+        "default": {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                  "template_type": "button",
+                  "text": "Les frais de scolarité sont de 750€ par an mais les prix varient en fonction de l'année d'études. Par quel cursus êtes vous intéressez ?",
+                  "buttons": [
+                    {
+                      "type": "postback",
+                      "title": "Bachelor",
+                      "payload": "bachelor"
+                    },
+                    {
+                      "type": "postback",
+                      "title": "Mastère",
+                      "payload": "mastere"
+                    }]  
+                }
+            }
+        },
+        "bachelor": {
+            "text": "Les tarifs du Bachelor sont de 6000€ (B1), 6800€ (B2) et 7300€ (B3)."
+        },
+        "mastere": {
+            "text":"Les tarifs sont de 8000€ pour chaque année de Mastère."
+        } 
     }],
     "school_location":[{
-        "default": "Nous sommes situés au 12 rue Anatole France, 92100 Nanterre.",
-        "transport":"Vous pouvez prendre le RER A ou Ligne L jusqu'à la gare de Nanterre-Université."
+        "default": {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                  "template_type": "button",
+                  "text": "Nous sommes situés au 12 rue Anatole France, 92100 Nanterre.",
+                  "buttons": [
+                    {
+                      "type": "postback",
+                      "title": "Comment venir ?",
+                      "payload": "howtogethere"
+                    }]  
+                }
+            } 
+        },
+        "transport": {
+            "text": "Vous pouvez prendre le RER A ou Ligne L jusqu'à la gare de Nanterre-Université."
+        }
     }],
-    "state_recognition":["Nos diplômes de Bachelor et de Mastère sont enregistrés respectivement au niveau 2 et au niveau 1 au RNCP."]
+    "state_recognition":[{
+        "text": "Nos diplômes de Bachelor et de Mastère sont enregistrés respectivement au niveau 2 et au niveau 1 au RNCP."
+    }]
     
 }
