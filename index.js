@@ -118,7 +118,25 @@ async function getIntentResponse(value, confidence, intents) {
         };
       } else if (intent === 'school_prices') {
         response = {
-          text: intents[intent][0].default
+          attachment: {
+            'type': 'template',
+            'payload': {
+              'template_type': 'button',
+              'text': intents[intent][0].default + " Par quel cursus êtes vous intéressez ?",
+              'buttons': [
+                {
+                  'type': 'postback',
+                  'title': 'Bachelor',
+                  'payload': 'bachelor',
+                },
+                {
+                  'type': 'postback',
+                  'title': 'Mastère',
+                  'payload': 'mastere',
+                }
+              ]  
+            }
+          }
         }
       } else {
         response = {
