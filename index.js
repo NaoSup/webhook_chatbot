@@ -145,7 +145,7 @@ async function getIntentResponse(value, confidence, entities, intents) {
           }
         }   
       } else if (intent === 'school_location'){
-        if(entitiers.come){
+        if(entities.come){
           response = {
             text: intents[intent][0].transport + " " + responseWeather
           }
