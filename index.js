@@ -112,68 +112,82 @@ async function getIntentResponse(value, confidence, entities, intents) {
   let response;
   for (const intent in intents) {
     if (intent === value && confidence > 0.8) {
-      if (intent === 'school_prices') {
-        if (entities.bachelor) {
-          response = {
-            text: intents[intent][0].bachelor
+      switch (intent) {
+        case 'alternance':
+          if(entities.contract){
+            response = {
+              text: intents[intent][0].contract
+            }
+          } else {
+            response = {
+              text: intents[intent][0].default
+            }
           }
-        } else if (entities.mastere) {
-          response = {
-            text: intents[intent][0].mastere
-          }
-        } else {
-          response = {
-            attachment: {
-              'type': 'template',
-              'payload': {
-                'template_type': 'button',
-                'text': intents[intent][0].default + " Par quel cursus êtes vous intéressez ?",
-                'buttons': [
-                  {
-                    'type': 'postback',
-                    'title': 'Bachelor',
-                    'payload': 'bachelor',
-                  },
-                  {
-                    'type': 'postback',
-                    'title': 'Mastère',
-                    'payload': 'mastere',
-                  }
-                ]  
+        case 'school_location':
+          if(entities.come){
+            response = {
+              text: intents[intent][0].transport + " " + responseWeather
+            }
+          } else {
+            response = {
+              attachment: {
+                'type': 'template',
+                'payload': {
+                  'template_type': 'button',
+                  'text': intents[intent][0].default + " " + responseWeather,
+                  'buttons': [
+                    {
+                      'type': 'postback',
+                      'title': 'Comment venir ?',
+                      'payload': 'howtogethere',
+                    },
+                  ]  
+                }
               }
             }
           }
-        }   
-      } else if (intent === 'school_location'){
-        if(entities.come){
-          response = {
-            text: intents[intent][0].transport + " " + responseWeather
-          }
-        } else {
-          response = {
-            attachment: {
-              'type': 'template',
-              'payload': {
-                'template_type': 'button',
-                'text': intents[intent][0].default + " " + responseWeather,
-                'buttons': [
-                  {
-                    'type': 'postback',
-                    'title': 'Comment venir ?',
-                    'payload': 'howtogethere',
-                  },
-                ]  
+          break;
+        case 'school_prices':
+          if (entities.bachelor) {
+            response = {
+              text: intents[intent][0].bachelor
+            }
+          } else if (entities.mastere) {
+            response = {
+              text: intents[intent][0].mastere
+            }
+          } else {
+            response = {
+              attachment: {
+                'type': 'template',
+                'payload': {
+                  'template_type': 'button',
+                  'text': intents[intent][0].default + " Par quel cursus êtes vous intéressez ?",
+                  'buttons': [
+                    {
+                      'type': 'postback',
+                      'title': 'Bachelor',
+                      'payload': 'bachelor',
+                    },
+                    {
+                      'type': 'postback',
+                      'title': 'Mastère',
+                      'payload': 'mastere',
+                    }
+                  ]  
+                }
               }
             }
-          }
+          }   
+          break;
+        default:
+          response = {
+            text: intents[intent][Math.floor(Math.random() * intents[intent].length)],
+          };
+          break;
         }
-      } else {
-        response = {
-          text: intents[intent][Math.floor(Math.random() * intents[intent].length)],
-        };
       }
     }
-  }
   return response;
 }
 

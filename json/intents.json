@@ -1,4 +1,8 @@
 {
+    "alternance": [{
+        "default": "L'alternance est possible à partir de la troisième année de bachelor sur un rythme de 2 jours école / 3 jours entreprise par semaine.",
+        "contract": "Nous proposons aux étudiants trois contrats: le contrat de stage, le contrat de professionnalisation et le contrat d'apprentissage."
+    }],
     "greetings": ["Bonjour ! :)", "Bienvenue !"],
     "school_degrees": ["Nous proposons un Bachelor(Bac+3) et un Mastère(Bac+5). A la fin de la formation, nous délivrons le titre d'Expert Informatique et Systèmes d'Information"],
     "school_description": ["Ingésup est une école en ingénierie informatique."],
@@ -9,6 +13,7 @@
     }],
     "school_location":[{
         "default": "Nous sommes situés au 12 rue Anatole France, 92100 Nanterre.",
-        "transport":"Vous pouvez prendre le RER A ou Ligne L jusqu'à la gare de Nanterre-Université"
-    }]
+        "transport":"Vous pouvez prendre le RER A ou Ligne L jusqu'à la gare de Nanterre-Université."
+    }],
+    "internship":["Les étudiants doivent effectuer des stages à temps plein en entreprise à la fin des deux premières années du cycle Bachelor."]
 }
