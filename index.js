@@ -155,7 +155,7 @@ async function handleMessage(SENDER_PSID, RECEIVED_MESSAGE) {
 
     console.log(response);
     // Default response
-    if (response === null) {
+    if (response == null) {
       response = {
         text: "Je n'ai pas bien compris votre demande...",
       };
