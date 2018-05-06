@@ -106,9 +106,11 @@ async function getBestWeather() {
 
 // Finds the response corresponding with the intent
 async function getIntentResponse(value, confidence, entities, intents) {
+  // Gets best weather of the week 
   const jsonBestDay = await getBestWeather();
   const { day, date, month, temp } = jsonBestDay;
   const responseWeather = `Vous pouvez venir nous rendre visite le ${day} ${date} ${month}. Ca sera le jour le plus chaud de la semaine avec ${temp}`;
+
   let response;
   for (const intent in intents) {
     if (intent === value && confidence > 0.8) {
@@ -121,6 +123,18 @@ async function getIntentResponse(value, confidence, entities, intents) {
             response = intents[intent][0].default;
             response.attachment.payload.text += " " + responseWeather;
           }
+          break;
+        case 'small_talk':
+          if(entities.age)
+            response = intents[intent][0].age;
+          else if(entities.birthday)
+            response = intents[intent][0].birthday;
+          else if(entities.howareyou)
+            response = intents[intent][0].howareyou;
+          else if(entities.name)
+            response = intents[intent][0].name;
+          else if(entities.role)
+            response = intents[intent][0].role;
           break;
         default:
           response = intents[intent][Math.floor(Math.random() * intents[intent].length)];

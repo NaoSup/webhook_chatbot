@@ -23,6 +23,22 @@
             }
         }
     }],
+    "contact": [{
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "button",
+                "text": "Vous pouvez nous contacter en ligne ou par téléphone : 0800 600 633.",
+                "buttons": [
+                    {
+                        "type":"web_url",
+                        "url": "https://www.ynov.com/contact/",
+                        "title": "Nous contacter"
+                    }
+                ]
+            }
+        }
+    }],
     "greetings": [{
         "text": "Bonjour !"
     }, {
@@ -80,7 +96,7 @@
         }
     }],
     "school_degrees": [{
-        "text": "Nous proposons un Bachelor(Bac+3) et un Mastère(Bac+5). A la fin de la formation, nous délivrons le titre d'Expert Informatique et Systèmes d'Information"
+        "text": "Nous proposons un Bachelor(Bac+3) et un Mastère(Bac+5). A la fin de la formation, nous délivrons le titre d'Expert Informatique et Systèmes d'Information."
     }],
     "school_description": [{
         "text": "Ingésup est une école en ingénierie informatique."
@@ -134,8 +150,31 @@
             "text":"Les tarifs sont de 8000€ pour chaque année de Mastère."
         } 
     }],
+    "small_talk":[{
+        "age": {
+            "text": "Je suis encore très jeune !"
+        },
+        "birthday":{
+            "text": "J'ai été créé le vendredi 27 avril 2018."
+        },
+        "howareyou":{
+            "text": "Très bien, merci :)"
+        },
+        "name":{
+            "text": "Vous pouvez m'appeler Ybot."
+        },
+        "role": {
+            "text": "Mon rôle est de vous renseigner sur l'école Ingésup."
+        }
+    }],
     "state_recognition":[{
         "text": "Nos diplômes de Bachelor et de Mastère sont enregistrés respectivement au niveau 2 et au niveau 1 au RNCP."
+    }],
+    "goodbye":[{
+        "text": "A bientôt !"
+    }, 
+    {
+        "text": "Au revoir !"
     }]
     
 }
