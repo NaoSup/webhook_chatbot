@@ -107,16 +107,12 @@ async function getBestWeather() {
 // Finds the response corresponding with the intent
 async function getIntentResponse(value, confidence, entities, intents) {
   const jsonBestDay = await getBestWeather();
+  const { day, date, month, temp } = jsonBestDay;
+  const responseWeather = `Vous pouvez venir nous rendre visite le ${day} ${date} ${month}. Ca sera le jour le plus chaud de la semaine avec ${temp}`;
   let response;
   for (const intent in intents) {
     if (intent === value && confidence > 0.8) {
-      if (intent === 'school_location') {
-        const { day, date, month, temp } = jsonBestDay;
-        const text = `${intents[intent][Math.floor(Math.random() * intents[intent].length)]}Vous pouvez venir nous rendre visite le ${day} ${date} ${month}. Ca sera le jour le plus chaud de la semaine avec ${temp}`;
-        response = {
-          text: text
-        };
-      } else if (intent === 'school_prices') {
+      if (intent === 'school_prices') {
         if (entities.bachelor) {
           response = {
             text: intents[intent][0].bachelor
@@ -151,7 +147,7 @@ async function getIntentResponse(value, confidence, entities, intents) {
       } else if (intent === 'school_location'){
         if(entitiers.come){
           response = {
-            text: intents[intent][0].transport
+            text: intents[intent][0].transport + " " + responseWeather
           }
         } else {
           response = {
@@ -159,7 +155,7 @@ async function getIntentResponse(value, confidence, entities, intents) {
               'type': 'template',
               'payload': {
                 'template_type': 'button',
-                'text': intents[intent][0].default,
+                'text': intents[intent][0].default + " " + responseWeather,
                 'buttons': [
                   {
                     'type': 'postback',
