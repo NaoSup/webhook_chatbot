@@ -7,6 +7,22 @@
             "text": "Nous proposons aux étudiants trois contrats: le contrat de stage, le contrat de professionnalisation et le contrat d'apprentissage."
         }
     }],
+    "apply": [{
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "button",
+                "text": "Vous pouvez déposer un dossier de candidature directement en ligne.",
+                "buttons": [
+                    {
+                        "type":"web_url",
+                        "url": "https://www.ynov.com/candidature/",
+                        "title": "Candidatez en ligne"
+                    }
+                ]
+            }
+        }
+    }],
     "greetings": [{
         "text": "Bonjour !"
     }, {
@@ -15,6 +31,22 @@
     "internship":[{
         "text": "Les étudiants doivent effectuer des stages à temps plein en entreprise à la fin des deux premières années du cycle Bachelor." 
     }],
+    "meet_us": [{
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "button",
+                "text": "Vous pouvez venir nous rendre visite du lundi au vendredi entre 10h et 18h. Il vous suffit de prendre un rendez-vous en ligne ou par téléphone : 0800 600 633.",
+                "buttons": [
+                    {
+                        "type":"web_url",
+                        "url": "https://www.ynov.com/contact/",
+                        "title": "Prendre RDV"
+                    }
+                ]
+            }
+        }
+    }],
     "rncp":[{
         "attachment": {
             "type": "template",
@@ -22,15 +54,31 @@
                 "template_type": "button",
                 "text": "Le titre RNCP (Répertoire National de la Certification Professionnelle) s'obtient et se renouvelle en fonction de l'employabilité de nos étudiants.",
                 "buttons": [
-                {
-                    "type": "web_url",
-                    "url": "http://www.studyrama.com/formations/classements/un-titre-certifie-rncp-c-est-quoi-82171",
-                    "title": "En savoir plus"
-                }]  
+                    {
+                        "type": "web_url",
+                        "url": "http://www.studyrama.com/formations/classements/un-titre-certifie-rncp-c-est-quoi-82171",
+                        "title": "En savoir plus"
+                    }
+                ]  
             }
         }
     }],
-    "school_admission": [],
+    "school_admission": [{
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "button",
+                "text": "L'admission se fait sur dossier et entretien de motivation pour les cycles Bachelor et Mastère. L'admission est ouverte aux titulaires du Baccalauréat pour le Bachelor et d'une formation Bac+3 pour le Mastère.",
+                "buttons": [
+                    {
+                        "type":"web_url",
+                        "url": "https://www.ynov.com/candidature/",
+                        "title": "Candidatez en ligne"
+                    }
+                ]
+            }
+        }
+    }],
     "school_degrees": [{
         "text": "Nous proposons un Bachelor(Bac+3) et un Mastère(Bac+5). A la fin de la formation, nous délivrons le titre d'Expert Informatique et Systèmes d'Information"
     }],
@@ -45,11 +93,12 @@
                   "template_type": "button",
                   "text": "Nous sommes situés au 12 rue Anatole France, 92100 Nanterre.",
                   "buttons": [
-                    {
-                      "type": "postback",
-                      "title": "Comment venir ?",
-                      "payload": "howtogethere"
-                    }]  
+                        {
+                            "type": "postback",
+                            "title": "Comment venir ?",
+                            "payload": "howtogethere"
+                        }
+                    ]  
                 }
             } 
         },
