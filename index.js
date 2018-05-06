@@ -114,8 +114,12 @@ async function getIntentResponse(value, confidence, intents) {
         const { day, date, month, temp } = jsonBestDay;
         const text = `${intents[intent][Math.floor(Math.random() * intents[intent].length)]}Vous pouvez venir nous rendre visite le ${day} ${date} ${month}. Ca sera le jour le plus chaud de la semaine avec ${temp}`;
         response = {
-          text,
+          text: text
         };
+      } else if (intent === 'school_prices') {
+        response = {
+          text: intents[intent][0].default
+        }
       } else {
         response = {
           text: intents[intent][Math.floor(Math.random() * intents[intent].length)],
