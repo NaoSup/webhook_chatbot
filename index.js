@@ -114,6 +114,7 @@ async function getIntentResponse(value, confidence, entities, intents) {
   const responseWeather = `Vous pouvez venir nous rendre visite le ${day} ${date} ${month}. Ca sera le jour le plus chaud de la semaine avec ${temp}`;
 
   let response;
+  // Finds the response corresponding to the intent
   for (const intent in intents) {
     if (intent === value && confidence > 0.8) {
       switch (intent) {
@@ -170,16 +171,13 @@ async function handleMessage(SENDER_PSID, RECEIVED_MESSAGE) {
     // Checks if the intent is known
     response = await getIntentResponse(value, confidence, entities, intents);
 
-    console.log(response);
     // Default response
     if (response == null) {
       response = {
         text: "Je n'ai pas bien compris votre demande...",
       };
     }
-    console.log(response);
   }
-  console.log(response);
   // Construct the message body
   const REQUEST_BODY = {
     messaging_type: 'RESPONSE',
