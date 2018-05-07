@@ -106,9 +106,11 @@ async function getBestWeather() {
 
 // Finds the response corresponding with the intent
 async function getIntentResponse(value, confidence, entities, intents) {
-  // Gets best weather of the week 
+  // Gets best weather of the week
   const jsonBestDay = await getBestWeather();
-  const { day, date, month, temp } = jsonBestDay;
+  const {
+    day, date, month, temp,
+  } = jsonBestDay;
   const responseWeather = `Vous pouvez venir nous rendre visite le ${day} ${date} ${month}. Ca sera le jour le plus chaud de la semaine avec ${temp}`;
 
   let response;
@@ -116,32 +118,33 @@ async function getIntentResponse(value, confidence, entities, intents) {
     if (intent === value && confidence > 0.8) {
       switch (intent) {
         case 'school_location':
-          if(entities.come){
+          if (entities.come) {
             response = intents[intent][0].transport;
-            response.text += " " + responseWeather;
+            response.text += ` ${responseWeather}`;
           } else {
             response = intents[intent][0].default;
-            response.attachment.payload.text += " " + responseWeather;
+            response.attachment.payload.text += ` ${responseWeather}`;
           }
           break;
         case 'small_talk':
-          if(entities.age)
+          if (entities.age) {
             response = intents[intent][0].age;
-          else if(entities.birthday)
+          } else if (entities.birthday) {
             response = intents[intent][0].birthday;
-          else if(entities.howareyou)
+          } else if (entities.howareyou) {
             response = intents[intent][0].howareyou;
-          else if(entities.name)
+          } else if (entities.name) {
             response = intents[intent][0].name;
-          else if(entities.role)
+          } else if (entities.role) {
             response = intents[intent][0].role;
+          }
           break;
         default:
           response = intents[intent][Math.floor(Math.random() * intents[intent].length)];
           break;
-        }
       }
     }
+  }
   return response;
 }
 
@@ -150,7 +153,7 @@ async function handleMessage(SENDER_PSID, RECEIVED_MESSAGE) {
   let value;
   let confidence;
   let response;
-  let entities = RECEIVED_MESSAGE.nlp.entities;
+  const { entities } = RECEIVED_MESSAGE.nlp;
   const fileContent = await readFile('json/intents.json');
   const intents = JSON.parse(fileContent);
 
@@ -193,19 +196,19 @@ async function handleMessage(SENDER_PSID, RECEIVED_MESSAGE) {
 // Handles messaging_postbacks events
 async function handlePostback(SENDER_PSID, RECEIVED_POSTBACK) {
   let response;
-  let payload = RECEIVED_POSTBACK.payload;
+  const { payload } = RECEIVED_POSTBACK;
   const fileContent = await readFile('json/intents.json');
   const intents = JSON.parse(fileContent);
   switch (payload) {
     case 'bachelor':
-      response = intents['school_prices'][0].bachelor;
+      response = intents.school_prices[0].bachelor;
       break;
     case 'mastere':
-      response = intents['school_prices'][0].mastere;
+      response = intents.school_prices[0].mastere;
       break;
     case 'howtogethere':
-      response = intents['school_location'][0].transport;
-      break; 
+      response = intents.school_location[0].transport;
+      break;
     default:
       break;
   }
