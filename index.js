@@ -45,7 +45,7 @@ function senderAction(SENDER_PSID) {
 }
 
 // Gets the data from the weather API
-function getApiData() {
+function getWeatherData() {
   const url = `http://api.openweathermap.org/data/2.5/forecast?q=Nanterre,fr&units=metric&mode=json&lang=fr&APPID=${WEATHER_API_KEY}`;
   return new Promise((resolve, reject) => {
     request.get(url, (err, response, body) => {
@@ -60,7 +60,7 @@ function getApiData() {
 
 // Gets the best weather condition of the week
 async function getBestWeather() {
-  const json = await getApiData();
+  const json = await getWeatherData();
   const { list } = json;
   let fullDate = new Date(list[0].dt_txt);
   let temp = list[0].main.temp_max;
@@ -158,9 +158,6 @@ async function handleMessage(SENDER_PSID, RECEIVED_MESSAGE) {
   const fileContent = await readFile('json/intents.json');
   const intents = JSON.parse(fileContent);
 
-  console.log(RECEIVED_MESSAGE);
-  console.log(RECEIVED_MESSAGE.nlp.entities);
-
   if (RECEIVED_MESSAGE.text) {
     // Verifies if there is an intent
     if (entities.intent) {
@@ -229,6 +226,7 @@ app.post('/webhook', (req, res) => {
   if (req.body.object === 'page') {
     req.body.entry.forEach((entry) => {
       const WEBHOOK_EVENT = entry.messaging[0];
+      
       // Gets the user ID
       const SENDER_PSID = WEBHOOK_EVENT.sender.id;
 
@@ -248,6 +246,7 @@ app.post('/webhook', (req, res) => {
   }
 });
 
+// Adds support for GET requests to our webhook
 app.get('/webhook', (req, res) => {
   const VERIFY_TOKEN = 'xUf8Fr6NMaRAfTY41zBvFPDQIssJRjLf';
 
@@ -255,6 +254,7 @@ app.get('/webhook', (req, res) => {
   const token = req.query['hub.verify_token'];
   const challenge = req.query['hub.challenge'];
 
+  // Checks if the mode and token sent is correct
   if (mode && token) {
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
       res.status(200).send(challenge);
