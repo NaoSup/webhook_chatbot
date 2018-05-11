@@ -39,6 +39,11 @@
             }
         }
     }],
+    "goodbye": [{
+        "text": "Au revoir !"
+    }, {
+        "text": "A bientôt !"
+    }],
     "greetings": [{
         "text": "Bonjour !"
     }, {
@@ -172,12 +177,5 @@
     }],
     "state_recognition":[{
         "text": "Nos diplômes de Bachelor et de Mastère sont enregistrés respectivement au niveau 2 et au niveau 1 au RNCP."
-    }],
-    "goodbye":[{
-        "text": "A bientôt !"
-    }, 
-    {
-        "text": "Au revoir !"
-    }]
-    
+    }] 
 }
